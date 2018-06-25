@@ -1,0 +1,17 @@
+.error { border: 1px solid red;
+}
+.errors {color: red
+
+}
+
+.left-side {
+    width: 80%;
+    float: left;
+    border: 1px solid rgb(155, 149, 149);
+}
+
+.right-side {
+    width: 20%;
+    float: right;
+    border: 1px solid rgb(133, 126, 126);
+}

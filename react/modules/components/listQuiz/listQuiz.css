@@ -1,0 +1,22 @@
+#heading {
+    color: black;
+    height: 40px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold
+}
+#quizname {
+  color: black;
+    height: 40px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold
+}
+
+#container {
+  padding: 10px;
+border: 1px solid black
+}
+.form-group {
+  margin-top: 20px;
+}
