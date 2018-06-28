@@ -1,4 +1,5 @@
 import React from 'react';
+import './quiz-style.css';
 
 class QuizCategory extends React.Component {
     constructor(props){
@@ -32,15 +33,16 @@ class QuizCategory extends React.Component {
     render(){
         return (
             <div>
-                <label>Please Enter the Category for this Quiz</label>
+                <label className = "quiz-name-label">Please Enter the Category for this Quiz</label>
                 <input
                 type = "text"
                 name = "quizCategory"
+                className = "quiz-name-input"
                 value = { this.state.quizCategory}
                 onChange = { this.onQuizNameChange }
                 />
 
-             <button onClick={ this.saveAndContinue }>Save and Continue</button>
+             <button className = "button-class" onClick={ this.saveAndContinue }>Next</button>
             </div>
         )
     }

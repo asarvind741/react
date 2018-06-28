@@ -4,6 +4,10 @@ import QuestionsAsked from './questions-asked';
 import AddQuestion from './add-question';
 import QuizCategory from './quiz-category';
 import Success from './success-message';
+import { connect } from 'react-redux';
+import { submitQuiz } from '../../services/QuizService';
+
+import { addFlashMessage } from '../../components/actions/addFlashMessage';
 
 import axios from 'axios';
 
@@ -13,6 +17,7 @@ class QuizMain extends React.Component {
         super(props);
         this.state = {
             step: 1,
+            isSubmit: false,
             quizData: {
                 quizName: null,
                 quizCategory: null,
@@ -28,34 +33,59 @@ class QuizMain extends React.Component {
     nextStep(){
         this.setState({
             step : this.state.step + 1
+        }, () => {
+         if(this.state.step == 5){
+                this.props.submitQuiz(this.state.quizData)
+                .then((response) => {
+                    console.log("response is", response);
+                    if(response.status === 200){
+                        this.props.addFlashMessage({
+                            type: 'success',
+                            text: 'Quiz has been created successfully'
+                        })
+                        this.setState({
+                            isSubmit:true
+                        })
+                    }
+                   
+                    
+                })
+                .catch((err) => {
+                    this.props.addFlashMessage ({
+                        type: 'error',
+                        text: 'You have submitted invalid quiz request'
+                    })
+                })
+                
+            }
         })
-
-        /* if(this.state.step === 5){
-            axios.post('http://localhost:5000/api/quiz/create',this.state.quizData)
-        } */
     }
 
     saveData(data){
         let jasper = Object.assign({}, this.state.quizData);
-        console.log("current state", this.state.step);
-        console.log("data is", data);
         if(this.state.step === 1){
         jasper.quizName = data;
-        console.log("jasper", jasper.quizName);
+        /* console.log("jasper", jasper.quizName); */
         }
-        else if( this.state.step === 2){
+        if( this.state.step === 2){
             jasper.quizCategory = data;
         }
-        else if(this.state.step === 3)
+        if(this.state.step === 3)
         {
         jasper.noOfQuestions = data;
         }
         if(this.state.step === 4){
-        jasper.questions = data;
+            data.forEach(element => {
+                jasper.questions.push(element)
+                
+            });
+            console.log("jasper", jasper);
         }
-        this.setState({ quizData:jasper }, () => {
-            console.log("check quizData", this.state.quizData);
-        })
+      
+
+        this.setState({ quizData:jasper })
+
+        console.log("quiz data", this.state.quizData)
     }
 
     render(){
@@ -77,17 +107,16 @@ class QuizMain extends React.Component {
              />
             case 4:
             return <AddQuestion
-            nextStep = { this.nextStep }
+             nextStep = { this.nextStep }
              saveData = { this.saveData }
              noOfQuestions = { this.state.quizData.noOfQuestions }
              />
             case 5:
-            return
-            <Success 
-            quizData = { this.state.quizData }
+            return  <Success
+            isSubmit = { this.state.isSubmit }
             />
         }
     }
 }
 
-export default QuizMain;
+export default connect(null, { submitQuiz, addFlashMessage })(QuizMain);

@@ -1,6 +1,7 @@
 import axios from 'axios'
+export const SUBMIT_QUIZ_REQUEST = 'SUBMIT_QUIZ_REQUEST';
 
-export function submitQuiz(data) {
+/* export function submitQuiz(data) {
     console.log("quiz data", data);
     const requestOptions = {
         method: 'POST',
@@ -12,8 +13,20 @@ export function submitQuiz(data) {
     return dispatch => {
         return fetch('/api/user/quiz/submit', requestOptions);
     }
-}
+} */
 
+
+export function submitQuiz(data) {
+    const requestOptions = {
+        'quizname':data.quizName,
+        'questions':data.questions,
+        'quizcategory':data.quizCategory
+    };
+
+    return dispatch => {
+        return axios.post('http://localhost:5000/api/quiz/create', requestOptions);
+    }
+}
 
 export function getAllQuizList() {
   const token = localStorage.getItem('token')

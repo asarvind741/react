@@ -1,4 +1,5 @@
 import React from 'react';
+import './quiz-style.css';
 
 class QuestionsAsked extends React.Component {
     constructor(props){
@@ -31,15 +32,16 @@ class QuestionsAsked extends React.Component {
     render(){
         return (
             <div>
-                <label>How Many Questions do you want to enter for this quiz?</label>
+                <label className = "quiz-name-label">How Many Questions do you want to enter for this quiz?</label>
                 <input
                 type = "text"
                 name = "quizName"
+                className = "quiz-name-input"
                 value = { this.state.noOfQuestions}
                 onChange = { this.onQuizNameChange }
                 />
 
-             <button onClick={ this.saveAndContinue }>Save and Continue</button>
+             <button className = "button-class" onClick={ this.saveAndContinue }>Save and Continue</button>
             </div>
         )
     }

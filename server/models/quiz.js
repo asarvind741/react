@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const questionSchema = new Schema({
   question:{
     type:String,
-    unique:true
+    // unique:true
 },
 
 option1:String,

@@ -69,7 +69,7 @@ let createQuiz = (req, res) => {
                 res.status(500).json(err);
             }
             else if (!!quiz) {
-                res.status(500).json({ Message: 'Quiz with this name already exists' })
+                res.status(400).json({ error: 'Quiz with this name already exists' })
             }
             else {
                 Quiz.create(req.body, (err, quiz) => {

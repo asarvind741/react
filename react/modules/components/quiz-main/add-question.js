@@ -26,7 +26,7 @@ class AddQuestion extends React.Component {
          console.log("index is------->>>",index);
          console.log("event",event.target.name) */
         let name = event.target.name;
-        console.log("name", name);
+        console.log("name-----------", name);
         let selectedQuestion = this.state.questions[index];
         if (name === 'question') {
             selectedQuestion.question = event.target.value;
@@ -41,11 +41,11 @@ class AddQuestion extends React.Component {
             this.state.questions[index] = selectedQuestion
         }
         else if (name === 'option3') {
-            selectedQuestion.option1 = event.target.value;
+            selectedQuestion.option3 = event.target.value;
             this.state.questions[index] = selectedQuestion
         }
         else if (name === 'option4') {
-            selectedQuestion.option1 = event.target.value;
+            selectedQuestion.option4 = event.target.value;
             this.state.questions[index] = selectedQuestion
         }
         else if (name === 'correctAnswer') {
