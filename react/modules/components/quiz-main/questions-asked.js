@@ -41,7 +41,7 @@ class QuestionsAsked extends React.Component {
                 onChange = { this.onQuizNameChange }
                 />
 
-             <button className = "button-class" onClick={ this.saveAndContinue }>Save and Continue</button>
+             <button className = "button-class" onClick={ this.saveAndContinue }>Next</button>
             </div>
         )
     }

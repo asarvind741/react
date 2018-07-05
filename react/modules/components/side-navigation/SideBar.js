@@ -12,13 +12,13 @@ class Sidebar extends React.Component {
       tab2 : 0,
       quizList:[]
     }
-    axios.get('http://localhost:5000/api/quiz/get-quiz-list').then((result) => {
+   /*  axios.get('http://localhost:5000/api/quiz/get-quiz-list').then((result) => {
       console.log(result.data);
       this.setState({quizList:result.data})
     })
     .catch((err)=> {
       console.log(err);
-    })
+    }) */
     }
     componentWillMount() {
 
@@ -77,7 +77,6 @@ class Sidebar extends React.Component {
 
          </a>
          <a href="/users">Manage User</a>
-         <a href="/company">Company Configuration</a>
 
          </div>
          :null

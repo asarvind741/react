@@ -16,11 +16,12 @@ import MainJavascript from './components/javscript-quiz/MainJavascript';
 import CreateQuiz from './components/createQuiz/createQuiz';
 import ListQuiz from './components/listQuiz/listQuiz';
 import TakeQuiz from './components/takeQuiz/takeQuiz';
+import QuizUser from './components/quizUser/quizUser';
 // import withStyles from './components/users/withStyles';
 import MainQuiz from './components/quiz-main/main-quiz';
 export default (
   <Route path= "/" component = { App }>
-    <IndexRoute component = { Greetings } />
+    <IndexRoute component = { LoginPage } />
     <Route path = "signup" component = { SignupPage } />
     <Route path = "login" component = { LoginPage} />
     <Route path = "forget-password" component = { ForgotPassword } />
@@ -35,6 +36,7 @@ export default (
     <Route path ='listQuiz' component = {ListQuiz} />
     <Route path ='take-quiz' component = {TakeQuiz} />
     <Route path ='main-quiz' component = {MainQuiz} />
+    <Route path = 'test' component = {QuizUser} />
     {/* <Route path = "test" component = { withStyles} /> */}
   </Route>
 )

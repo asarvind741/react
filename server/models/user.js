@@ -14,7 +14,15 @@ const salt = bcrypt.genSaltSync(10);
 let hashPassword =(password) => {
    return bcrypt.hashSync(password, salt)
 }
-
+const userQuizzes = {
+  quizId : {
+    type:mongoose.Schema.ObjectId,
+    ref:'Quiz'
+  },
+  quizName:String,
+  totalQuestions:Number,
+  correctAnswers:Number
+}
 const userSchema = new Schema({
     firstName: {
         type: String,
@@ -56,7 +64,8 @@ const userSchema = new Schema({
 
     company: {
         type: String
-    }
+    },
+    quizzes: [userQuizzes]
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

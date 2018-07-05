@@ -28,3 +28,16 @@
     width: 80px;
 
 }
+
+.option-class {
+    display: inline-block;
+    margin: 10px;
+}
+
+.control-label {
+    color: green;
+    margin-right: 5px;
+}
+.question-class {
+    width: 60%;
+}

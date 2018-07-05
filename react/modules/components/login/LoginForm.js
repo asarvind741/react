@@ -47,7 +47,7 @@ class LoginForm extends React.Component {
                    localStorage.setItem('currentUserInfo', user);
                    localStorage.setItem('token',response.data.token)
                    localStorage.setItem('isLoggedIn',true);
-                    this.context.router.push('/');
+                    this.context.router.push('/take-quiz');
 
                 }
                 else {

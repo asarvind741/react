@@ -24,7 +24,6 @@ class NavigationBar extends Component {
                            {(userInfo && userInfo.role == 'Admin')?
                            <span>
                           <li><a className = "dropdown-list-options" href="/users">All Users</a></li>
-                          <li><a className = "dropdown-list-options" href="/company">Company Configuration</a></li>
                           <li><a className = "dropdown-list-options" href="#">Device Configuration</a></li>
                           <li><a className = "dropdown-list-options" href="quiz-settings">Quiz Settings</a></li>
                           </span>:null

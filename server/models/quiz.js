@@ -4,16 +4,19 @@ const Schema = mongoose.Schema;
 const questionSchema = new Schema({
   question:{
     type:String,
-    // unique:true
+    unique:true
 },
 
 option1:String,
 option2:String,
 option3:String,
 option4:String,
-correct_answer:Number
+correctAnswer:Number
 })
 const quizSchema = new Schema({
+    categoryname:{
+      type: String
+    },
     quizname: {
         type: String,
         unique:true,
