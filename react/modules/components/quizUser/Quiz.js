@@ -11,14 +11,14 @@ function Quiz(props) {
 
   function Button(i) {
     return (
-    <button onClick={() => handleClick(i, props.answer)} className = "question-button">{i}</button>
+    <button onClick={() => handleClick(i, props.answer, props.questionUniqueId)} className = "question-button">{i}</button>
   );
   
 }
 
-  function handleClick(questionId, answer) {
+  function handleClick(questionId, answer, questionUniqueId) {
     const id = questionId - 1;
-    props.navigate(id, answer);
+    props.navigate(id, answer, questionUniqueId);
   }
 
   function renderAnswerOptions(key) {
@@ -29,6 +29,7 @@ function Quiz(props) {
         answer={props.answer}
         questionId={props.questionId}
         onAnswerSelected={props.onAnswerSelected}
+        questionUniqueId = { props.questionUniqueId}
       />
     );
   }

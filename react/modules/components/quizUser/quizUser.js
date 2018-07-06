@@ -4,7 +4,7 @@ import axios from 'axios';
 import Question from './Question';
 import Quiz from './Quiz';
 import Result from './Result';
-import { getSelectedQuiz} from '../../services/QuizService';
+import { getSelectedQuiz } from '../../services/QuizService';
 import { connect } from 'react-redux';
 
 import { submitQuiz } from '../../services/QuizService'
@@ -16,21 +16,22 @@ class QuizUser extends React.Component {
     this.state = {
       counter: 0,
       questionId: 1,
-      questionUniqueId:'',
+      questionUniqueId: '',
       question: '',
-      option1:'',
-      option2:'',
-      option3:'',
-      option4:'',
+      option1: '',
+      option2: '',
+      option3: '',
+      option4: '',
       result: '',
-      quizData:[],
-      Questions:[],
-      answerOptions:[],
-      answersCount:{
+      quizData: [],
+      Questions: [],
+      answerOptions: [],
+      storeInfo: [],
+      answersCount: {
 
       },
 
-      answer:''
+      answer: ''
     };
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -38,140 +39,124 @@ class QuizUser extends React.Component {
   }
 
   componentWillMount() {
-    console.log("id is", this.props.params.id);
     this.props.getSelectedQuiz(this.props.params.id)
-    .then((success) => {
-        console.log('success',success.data.Questions)
-      this.setState({
-      question: success.data.Questions[0].question,
-      questionUniqueId: success.data.Questions[0]._id,
-      answerOptions: [
-      success.data.Questions[0].option1,
-      success.data.Questions[0].option2,
-      success.data.Questions[0].option3,
-      success.data.Questions[0].option4],
-      Questions:success.data.Questions
-    })
-    })
-    .catch((failed) => {
-      console.log('failed',failed)
-    })
+      .then((success) => {
+        this.setState({
+          question: success.data.Questions[0].question,
+          questionUniqueId: success.data.Questions[0]._id,
+          answerOptions: [
+            success.data.Questions[0].option1,
+            success.data.Questions[0].option2,
+            success.data.Questions[0].option3,
+            success.data.Questions[0].option4],
+          Questions: success.data.Questions
+        })
+      })
+      .catch((failed) => {
+      })
     const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if(!isLoggedIn)
-    this.context.router.push('/login');
+    if (!isLoggedIn)
+      this.context.router.push('/login');
     else {
 
 
-  }
+    }
   }
 
   findQuestionIndex(question) {
-    console.log('this.state.Questions',this.state.Questions);
-   for(let i=0;i<this.state.Questions.length;i++) {
-     if(this.state.Questions[i].question == question)
-     return i;
-   }
-   return -1;
+    for (let i = 0; i < this.state.Questions.length; i++) {
+      if (this.state.Questions[i].question == question)
+        return i;
+    }
+    return -1;
   }
 
 
 
   handleAnswerSelected(event) {
-    console.log('event.currentTarget',event.currentTarget.value)
-    if(event.currentTarget.value == 'submit') {
-    //   this.setState((prevState) =>
-    //   ({ counter: ++prevState.counter })
-    // )
-    this.setUserAnswer(event.currentTarget.value);
+    var answer;
+    var questionUniqueId;
+    if((event.currentTarget.value!== 'submit') || (event.currentTarget.value!== 'next' )||(event.currentTarget.value!== 'previous' ) ){
+      answer = event.currentTarget.value;
+      questionUniqueId = event.currentTarget.id;
+    }
+    if (event.currentTarget.value == 'submit') {
+      //   this.setState((prevState) =>
+      //   ({ counter: ++prevState.counter })
+      // )
+      this.setUserAnswer(event.currentTarget.value);
       // submitQuiz(this.state.quizData).then((res)=>{
-      //       console.log("check me",res);
+      //  
       //     });
     }
-    // console.log("event-----", event.target);
     else if (event.currentTarget.value === "next") {
-      console.log("test condi",this.state.counter,'=========',this.state.Questions.length)
-      if (this.state.Questions.length-1 > this.state.counter) {
+      this.storeuserAnswer(questionUniqueId, answer);
+      console.log("storre", this.state.storeInfo);
+      if (this.state.Questions.length - 1 > this.state.counter) {
         setTimeout(() => this.setNextQuestion(), 300);
       }
       else {
-        console.log("trssss");
       }
       // else {
       //   submitQuiz(this.state.quizData).then((res)=>{
-      //     console.log("check me");
       //   });
       //   setTimeout(() => this.setResults(this.getResults()), 300);
       // }
     }
     else if (event.currentTarget.value === 'previous') {
-     // console.log("previous event", event.currentTarget.value);
-
       if (this.state.counter > 1 || this.state.counter <= this.state.Questions.length) {
-        //console.log("previous event second");
         setTimeout(() => this.setPreviousQuestion(), 300);
       }
     }
 
     else {
-      console.log('event.currentTarget.value',event)
-      if(event.currentTarget.value != 'submit')
-      this.setUserAnswer(event.currentTarget.value);
+      if (event.currentTarget.value != 'submit')
+        this.setUserAnswer(event.currentTarget.value);
 
     }
   }
 
   setUserAnswer(answercontent) {
-    console.log('answer',answercontent)
-    console.log('this.state.answersCount',this.state.answersCount);
     // const updatedAnswersCount = update(this.state.answersCount, {
     //   [answer]: { $apply: (currentValue) => currentValue + 1 }
     // });
-    // console.log('updatedAnswersCount',updatedAnswersCount)
-
-    // console.log("update answer count----", updatedAnswersCount);
 
     this.setState({
-       answer: answercontent,
+      answer: answercontent,
 
-     },() => {
+    }, () => {
 
       this.state.quizData.push({
-        question:this.state.Questions[this.state.counter]._id,
+        question: this.state.Questions[this.state.counter]._id,
         selectedAnswer: this.state.answer
       })
-     });
-
-    console.log("quizdata",this.state.quizData)
+    });
 
 
   }
 
   setNextQuestion() {
-    console.log('this.state',this.state);
     // this.state.quizData.push({
     //   question:this.state.Questions[this.state.counter].question,
     //   selectedAnswer: this.state.answer
     // })
-    console.log("quiz data", this.state.quizData);
 
     const counter = this.state.counter + 1;
     const questionId = this.findQuestionIndex(this.state.question) + 1;
     this.state.previousAnswer = this.state.answer;
-    console.log('counter',counter)
-    console.log('this.state.Questions[counter]',this.state)
-    if(this.state.Questions.length > counter)
-    this.setState({
-      counter: counter,
-      questionId: questionId,
-      questionUniqueId: this.state.Questions[counter]._id,
-      question: this.state.Questions[counter].question,
-      answerOptions: [this.state.Questions[counter].option1,
-      this.state.Questions[counter].option1,
-      this.state.Questions[counter].option2,
-      this.state.Questions[counter].option3,
-      this.state.Questions[counter].option4],
-      answer: ''
-    });
+    if (this.state.Questions.length > counter)
+      this.setState({
+        counter: counter,
+        questionId: questionId,
+        questionUniqueId: this.state.Questions[counter]._id,
+        question: this.state.Questions[counter].question,
+        answerOptions: [this.state.Questions[counter].option1,
+        this.state.Questions[counter].option1,
+        this.state.Questions[counter].option2,
+        this.state.Questions[counter].option3,
+        this.state.Questions[counter].option4],
+        answer: ''
+      });
   }
 
   setPreviousQuestion() {
@@ -188,7 +173,7 @@ class QuizUser extends React.Component {
       this.state.Questions[counter].option2,
       this.state.Questions[counter].option3,
       this.state.Questions[counter].option4],
-      answer:this.state.previousAnswer
+      answer: this.state.previousAnswer
     })
   }
 
@@ -202,26 +187,47 @@ class QuizUser extends React.Component {
   }
 
   setResults(result) {
-    console.log("result", result);
     if (result.length === 1) {
       this.setState({ result: result[0] });
     } else {
       this.setState({ result: 'Undetermined' });
     }
   }
-  navigated(counter, answer) {
-    console.log("navigation called",counter,'---',this.setState);
+
+  storeuserAnswer(answer, questionUniqueId){
+    let check = false;
+    this.state.storeInfo.forEach(item => {
+      if (item.questionUniqueId === questionUniqueId) {
+        item.selectedAnswer = answer
+        check = true;
+        return;
+      }
+    }
+    )
+    if(check === false){
+      this.state.storeInfo.push({
+        'questionUniqueId': questionUniqueId,
+        'selectedAnswer': answer
+      });
+  
+    }
+  }
+  navigated(counter, answer, questionUniqueId) {
+   this.storeuserAnswer(answer, questionUniqueId);
+   
 
     this.setState({
       counter: counter,
       question: this.state.Questions[counter].question,
+      questionUniqueId: this.state.Questions[counter]._id,
       answerOptions: [this.state.Questions[counter].option1,
       this.state.Questions[counter].option1,
       this.state.Questions[counter].option2,
       this.state.Questions[counter].option3,
       this.state.Questions[counter].option4],
-      answer:this.state.previousAnswer
-    })  }
+      answer: this.state.previousAnswer
+    })
+  }
 
   renderQuiz() {
     return (
@@ -234,6 +240,7 @@ class QuizUser extends React.Component {
         counter={this.state.counter}
         questionTotal={this.state.Questions.length}
         onAnswerSelected={this.handleAnswerSelected}
+        questionUniqueId={this.state.questionUniqueId}
       />
     );
   }
