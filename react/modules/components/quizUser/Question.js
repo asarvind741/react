@@ -1,5 +1,6 @@
 import React from 'react';
-import './Quiz.css';
+import './Quiz.css'
+
 
 function Question(props){
     return(

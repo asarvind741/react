@@ -21,11 +21,9 @@ class ShowQuiz extends React.Component {
 
 
   render(){
-    console.log("this,props",this.props)
 
 
     const renderQuestion  = this.props.quizData.Questions.map(question => {
-      console.log("question is", question)
       return (
         <div>
           <h3 className = "question">{ question.question }</h3>

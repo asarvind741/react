@@ -1,5 +1,5 @@
 .question {
-  background-color: rgb(160, 51, 51);
+  background-color: rgb(88, 179, 240);
   margin-top: 15px;
   color: white;
   padding: 10px;
@@ -7,7 +7,7 @@
 }
 
 .question-counter {
-  color: blueviolet;
+  color: rgb(80, 108, 168);
   font-size: 20px;
 }
 
@@ -40,3 +40,14 @@ button {
 .button {
   float: right;
 }
+
+.question-button {
+    border-radius: 100%;
+    background-color: #2196F3;
+    color: white;
+    margin: 5px;
+    width: 50px;
+    height: 49px;
+    border: none;
+}
+.question-button:focus {outline: none;}

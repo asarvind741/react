@@ -55,7 +55,7 @@ class Sidebar extends React.Component {
         {(isLoggedIn)?
         <div>
           <div>
-         <a href="#" onClick = {this.tabChange1.bind(this)}>My Quizzes
+         <a href="my-quiz" onClick = {this.tabChange1.bind(this)}>My Quizzes
          {(this.state.tab1 == 1)?
          <span>
            { sideNavItem }

@@ -35,9 +35,10 @@ module.exports =(app) =>{
     // Quiz temporary routes
     app.post('/api/quiz/create',  quizController.createQuiz);
     app.post('/api/quiz/get-quiz-by-category',  quizController.getQuizByCategory);
-    app.post('/api/quiz/get-quiz', quizController.getQuiz);
+    app.post('/api/quiz/get-quiz/:id', quizController.getQuiz);
     app.get('/api/quiz/get-all-quiz',quizController.getAllQuiz);
     app.post('/api/quiz/submit-quiz',quizController.submitQuiz);
     app.get('/api/quiz/get-category', quizController.getCategory);
+    app.get('/api/quiz/my-quiz', quizController.getQuizByMe);
 
 }

@@ -4,6 +4,8 @@ import axios from 'axios';
 import Question from './Question';
 import Quiz from './Quiz';
 import Result from './Result';
+import { getSelectedQuiz} from '../../services/QuizService';
+import { connect } from 'react-redux';
 
 import { submitQuiz } from '../../services/QuizService'
 class QuizUser extends React.Component {
@@ -36,7 +38,8 @@ class QuizUser extends React.Component {
   }
 
   componentWillMount() {
-    axios.post('http://localhost:5000/api/quiz/get-quiz',{quizId:'5b39ea734d96d6263b317327'})
+    console.log("id is", this.props.params.id);
+    this.props.getSelectedQuiz(this.props.params.id)
     .then((success) => {
         console.log('success',success.data.Questions)
       this.setState({
@@ -206,7 +209,7 @@ class QuizUser extends React.Component {
       this.setState({ result: 'Undetermined' });
     }
   }
-  navigated(counter) {
+  navigated(counter, answer) {
     console.log("navigation called",counter,'---',this.setState);
 
     this.setState({
@@ -259,4 +262,4 @@ QuizUser.contextTypes = {
 }
 
 
-export default QuizUser;
+export default connect(null, { getSelectedQuiz })(QuizUser);

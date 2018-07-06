@@ -17,10 +17,12 @@ export const SUBMIT_QUIZ_REQUEST = 'SUBMIT_QUIZ_REQUEST';
 
 
 export function submitQuiz(data) {
+    let currentUserId = JSON.parse(localStorage.getItem('currentUserInfo'))._id;
     const requestOptions = {
         'quizname':data.quizName,
         'questions':data.questions,
-        'quizcategory':data.quizCategory
+        'quizcategory':data.quizCategory,
+        'createdBy':currentUserId
     };
 
     return dispatch => {
@@ -42,7 +44,7 @@ export function getAllQuizList() {
   }
 }
 
-export function getSelectedQuiz(quizId) {
+/* export function getSelectedQuiz(quizId) {
   const token = localStorage.getItem('token')
   const requestOptions = {
 
@@ -52,3 +54,12 @@ export function getSelectedQuiz(quizId) {
       return axios.post('http://localhost:5000/api/quiz/get-quiz',requestOptions);
   }
 }
+ */
+
+ export function getSelectedQuiz(id){
+     console.log("id is", id);
+
+    return dispatch => {
+        return axios.post(`http://localhost:5000/api/quiz/get-quiz/${id}`);
+    }
+ }

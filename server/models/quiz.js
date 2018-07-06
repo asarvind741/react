@@ -14,7 +14,7 @@ option4:String,
 correctAnswer:Number
 })
 const quizSchema = new Schema({
-    categoryname:{
+    quizcategory:{
       type: String
     },
     quizname: {

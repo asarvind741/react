@@ -1,4 +1,5 @@
 import React from 'react';
+import  quizUser from '../quizUser/quizUser'
 import  ShowQuiz  from './show-quiz';
 import './quiz.css'
 class ShowAvailableQuiz extends React.Component{
@@ -7,7 +8,8 @@ class ShowAvailableQuiz extends React.Component{
     super(props);
     this.state = {
       quizList: [],
-      quizData:{}
+      quizData:{},
+      id:null
     }
 
     this.selectedQuiz = this.selectedQuiz.bind(this);
@@ -15,8 +17,6 @@ class ShowAvailableQuiz extends React.Component{
 
   componentDidMount(){
     this.props.getAllQuizList().then(response =>{
-
-    console.log("state reponse", response);
       if(response.status === 200){
         this.setState({
           quizList:response.data.quizes
@@ -27,23 +27,19 @@ class ShowAvailableQuiz extends React.Component{
     })
   }
 
-  selectedQuiz(event){
+  selectedQuiz(id){
    // event.preventDefault();
-    console.log("event is", event);
-    console.log("props",this.props.getSelectedQuiz)
-    this.props.getSelectedQuiz(event).then((success) => {
-      console.log('success',success);
+  /*   this.props.getSelectedQuiz(id).then((success) => {
       this.setState({
         quizData:success.data
       })
-      console.log("thisjsijs", this.state.quizData);
 
-    })
+    }) */
+    this.context.router.push(`/get-quiz/${id}`)
   }
 
   render(){
     const quizName = this.state.quizList.map(quizName => {
-      console.log("test---", quizName)
       return (
         <div>
       <div className='quizlist'>
@@ -61,13 +57,13 @@ class ShowAvailableQuiz extends React.Component{
       { quizName }
 
       </div>
-      {(Object.keys(this.state.quizData).length != 0 ) ? <div className='questionContainer'>
+     {/*  {(Object.keys(this.state.quizData).length != 0 ) ? <div className='questionContainer'>
         <ShowQuiz
       quizData = { this.state.quizData }
       onAnswerSelected = { this.props.onAnswerSelected}
       />
         <button className = "submit-button">Submit</button></div> :
-      ''}
+      ''} */}
     </div>
   )
 }
@@ -77,6 +73,11 @@ ShowAvailableQuiz.PropTypes = {
   getAllQuizList: React.PropTypes.func.isRequired,
   getSelectedQuiz: React.PropTypes.func.isRequired,
   onAnswerSelected: React.PropTypes.func.isRequired
+
+}
+
+ShowAvailableQuiz.contextTypes = {
+  router: React.PropTypes.object.isRequired
 
 }
 

@@ -4,22 +4,24 @@ import QuestionCounter from './QuestionCounter';
 import AnswerOption from './AnswerOption';
 import { addFlashMessage } from '../../components/actions/addFlashMessage';
 import { connect } from 'react-redux';
+import './Quiz.css'
 
 
 function Quiz(props) {
 
   function Button(i) {
     return (
-    <button onClick={() => handleClick(i)}>{i}</button>
+    <button onClick={() => handleClick(i, props.answer)} className = "question-button">{i}</button>
   );
-  }
-  function handleClick(questionId) {
-    console.log(questionId);
-    props.navigate(questionId);
+  
+}
+
+  function handleClick(questionId, answer) {
+    const id = questionId - 1;
+    props.navigate(id, answer);
   }
 
   function renderAnswerOptions(key) {
-    console.log('key',key)
     return (
       <AnswerOption
         key={key}
@@ -33,7 +35,7 @@ function Quiz(props) {
 
   function createButtons() {
     let buttons = [];
-    for(let i=0;i<props.questionTotal;i++) {
+    for(let i=1;i<= props.questionTotal;i++) {
       buttons.push(Button(i,props.questionId))
     }
     return buttons;
