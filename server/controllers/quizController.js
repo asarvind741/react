@@ -113,31 +113,39 @@ let submitQuiz = (req, res) => {
     .then((success) => {
       let questions = success.Questions
       quiz_name = success.quizname;
-      for (let i = 0; i < req.body.questions.length; i++) {
+      for (let i = 0; i < req.body.data.length; i++) {
         for (let j = 0; j < questions.length; j++) {
-          if (req.body.questions[i]._id == questions[j]._id) {
-            if (parseInt(req.body.questions[i].value) == parseInt(questions[j].correct_answer)) {
+          if (req.body.data[i].questionUniqueId == questions[j]._id) {
+            if ((req.body.data[i].selectedAnswer) == (questions[j].correctAnswer)) {
               correct_answer++;
             }
           }
         }
       }
 
-      User.findOneAndUpdate({ _id: req.body.userId }, {
+      User.findOneAndUpdate({ _id: req.body.submittedBy }, {
         $set: {
           quizzes: {
             quizId: req.body.quizId,
             quizName: quiz_name,
-            totalQuestions: req.body.questions.length,
+            totalQuestions: req.body.data.length,
             correctAnswers: correct_answer
           }
         }
       }, { new: true }, (error, success) => {
+        console.log("success is", success);
         if (error) {
           res.status(400).json(error);
         }
         else {
-          res.status(200).json(success.quizzes);
+          let result;
+          success.quizzes.forEach(element => { 
+            if(req.body.quizId == element.quizId){
+              let value = element.correctAnswers*100/element.totalQuestions;
+              result = `{"percentage": "${value}", "quizname":"${element.quizName}"}`
+            }            
+          });
+          res.status(200).json(result);
         }
       })
 

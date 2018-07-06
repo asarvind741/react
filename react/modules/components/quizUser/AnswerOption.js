@@ -7,6 +7,7 @@ function AnswerOption(props){
         <input type = "radio" name="radioGroup"
          checked={props.answer == props.answerContent}
          id={props.questionUniqueId}
+         key = { props.questionUniqueId }
          value={props.answerContent}
          onChange={props.onAnswerSelected}
        />

@@ -41,11 +41,10 @@ class ShowAvailableQuiz extends React.Component{
   render(){
     const quizName = this.state.quizList.map(quizName => {
       return (
-        <div>
-      <div className='quizlist'>
-      <p  onClick = {()=>{this.selectedQuiz(quizName._id)}}>{ quizName.quizname }</p>
-
-        </div>
+        <div  key = {quizName._id}>
+          <div className='quizlist'>
+            <p onClick = {()=>{this.selectedQuiz(quizName._id)}}>{ quizName.quizname }</p>
+          </div>
       </div>
     )
     })
@@ -53,17 +52,8 @@ class ShowAvailableQuiz extends React.Component{
   return (
     <div >
       <div className = "heading">
-      {/* <h4> Please select the quiz...</h4> */}
       { quizName }
-
       </div>
-     {/*  {(Object.keys(this.state.quizData).length != 0 ) ? <div className='questionContainer'>
-        <ShowQuiz
-      quizData = { this.state.quizData }
-      onAnswerSelected = { this.props.onAnswerSelected}
-      />
-        <button className = "submit-button">Submit</button></div> :
-      ''} */}
     </div>
   )
 }

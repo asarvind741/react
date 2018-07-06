@@ -11,7 +11,7 @@ function Quiz(props) {
 
   function Button(i) {
     return (
-    <button onClick={() => handleClick(i, props.answer, props.questionUniqueId)} className = "question-button">{i}</button>
+    <button key = {i} onClick={() => handleClick(i, props.answer, props.questionUniqueId)} className = "question-button">{i}</button>
   );
   
 }
@@ -37,7 +37,7 @@ function Quiz(props) {
   function createButtons() {
     let buttons = [];
     for(let i=1;i<= props.questionTotal;i++) {
-      buttons.push(Button(i,props.questionId))
+      buttons.push(Button(i))
     }
     return buttons;
   }

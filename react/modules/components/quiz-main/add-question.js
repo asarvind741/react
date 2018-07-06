@@ -136,7 +136,7 @@ class AddQuestion extends React.Component {
                             Correct Answer
                          </label>
                         <input
-                            type="number"
+                            type="text"
                             name="correctAnswer"
                             value={item.correctAnswer}
                             onChange={(event) => this.onQuestionChange(event, i)}

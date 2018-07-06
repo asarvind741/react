@@ -6,8 +6,9 @@ import Quiz from './Quiz';
 import Result from './Result';
 import { getSelectedQuiz } from '../../services/QuizService';
 import { connect } from 'react-redux';
+import { completeQuiz } from '../../services/QuizService';
+import { addFlashMessage } from '../actions/addFlashMessage';
 
-import { submitQuiz } from '../../services/QuizService'
 class QuizUser extends React.Component {
 
   constructor(props) {
@@ -31,7 +32,12 @@ class QuizUser extends React.Component {
 
       },
 
-      answer: ''
+      answer: '',
+      answercheck:'',
+      questioncheck:'',
+      completed: false,
+      quizNameReturned:'',
+      marks:0
     };
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -50,6 +56,7 @@ class QuizUser extends React.Component {
             success.data.Questions[0].option3,
             success.data.Questions[0].option4],
           Questions: success.data.Questions
+        }, () => {
         })
       })
       .catch((failed) => {
@@ -74,36 +81,61 @@ class QuizUser extends React.Component {
 
 
   handleAnswerSelected(event) {
-    var answer;
-    var questionUniqueId;
-    if((event.currentTarget.value!== 'submit') || (event.currentTarget.value!== 'next' )||(event.currentTarget.value!== 'previous' ) ){
-      answer = event.currentTarget.value;
-      questionUniqueId = event.currentTarget.id;
+    if(event.currentTarget.value !== 'next' && event.currentTarget.value !== 'previous' && event.currentTarget.value !== 'submit')
+    {
+     this.setState({
+       answercheck:event.currentTarget.value,
+       questioncheck:event.currentTarget.id
+     })
     }
+    
+    
+    
     if (event.currentTarget.value == 'submit') {
-      //   this.setState((prevState) =>
-      //   ({ counter: ++prevState.counter })
-      // )
+      this.storeuserAnswer(this.state.answercheck, this.state.questioncheck);
       this.setUserAnswer(event.currentTarget.value);
-      // submitQuiz(this.state.quizData).then((res)=>{
-      //  
-      //     });
+      this.props.completeQuiz(this.state.storeInfo, this.props.params.id).then(response => {
+        console.log("response", response);
+        let data = JSON.parse(response.data);
+        this.setState({
+          completed: true,
+          quizNameReturned: data.quizname,
+          marks:data.percentage
+        })
+        
+        if(response.status == 200 && data.percentage>=60){
+          this.props.addFlashMessage({
+            type: 'success',
+            text: "You have passed Quiz successfully."
+          })
+        }
+        else if(response.status == 200 && data.percentage<60){
+          this.props.addFlashMessage({
+            type: 'success',
+            text: "You have passed Quiz successfully."
+          })
+        }
+        else {
+          this.props.addFlashMessage({
+            type: 'error',
+            text: "Error Occured"
+          })
+        }
+    
+
+      })
     }
     else if (event.currentTarget.value === "next") {
-      this.storeuserAnswer(questionUniqueId, answer);
-      console.log("storre", this.state.storeInfo);
+        this.storeuserAnswer(this.state.answercheck, this.state.questioncheck);
       if (this.state.Questions.length - 1 > this.state.counter) {
         setTimeout(() => this.setNextQuestion(), 300);
       }
       else {
       }
-      // else {
-      //   submitQuiz(this.state.quizData).then((res)=>{
-      //   });
-      //   setTimeout(() => this.setResults(this.getResults()), 300);
-      // }
     }
     else if (event.currentTarget.value === 'previous') {
+      this.storeuserAnswer(this.state.answercheck, this.state.questioncheck);
+      
       if (this.state.counter > 1 || this.state.counter <= this.state.Questions.length) {
         setTimeout(() => this.setPreviousQuestion(), 300);
       }
@@ -143,7 +175,6 @@ class QuizUser extends React.Component {
 
     const counter = this.state.counter + 1;
     const questionId = this.findQuestionIndex(this.state.question) + 1;
-    this.state.previousAnswer = this.state.answer;
     if (this.state.Questions.length > counter)
       this.setState({
         counter: counter,
@@ -154,9 +185,16 @@ class QuizUser extends React.Component {
         this.state.Questions[counter].option1,
         this.state.Questions[counter].option2,
         this.state.Questions[counter].option3,
-        this.state.Questions[counter].option4],
-        answer: ''
-      });
+        this.state.Questions[counter].option4]
+      }, () =>{
+        this.state.storeInfo.forEach(item =>{
+          if(item.questionUniqueId === this.state.questionUniqueId){
+            this.setState({
+              answer:item.selectedAnswer
+            })
+          }
+        })
+      } );
   }
 
   setPreviousQuestion() {
@@ -172,8 +210,17 @@ class QuizUser extends React.Component {
       this.state.Questions[counter].option1,
       this.state.Questions[counter].option2,
       this.state.Questions[counter].option3,
-      this.state.Questions[counter].option4],
-      answer: this.state.previousAnswer
+      this.state.Questions[counter].option4]
+    },  () =>{
+      console.log("store state", this.state.storeInfo);
+      this.state.storeInfo.forEach(item =>{
+        console.log("item is", item)
+        if(item.questionUniqueId === this.state.questionUniqueId){
+          this.setState({
+            answer:item.selectedAnswer
+          }, () => { console.log("item now", item)})
+        }
+      })
     })
   }
 
@@ -195,6 +242,8 @@ class QuizUser extends React.Component {
   }
 
   storeuserAnswer(answer, questionUniqueId){
+    console.log("answer",answer);
+    console.log("question id", questionUniqueId);
     let check = false;
     this.state.storeInfo.forEach(item => {
       if (item.questionUniqueId === questionUniqueId) {
@@ -211,6 +260,7 @@ class QuizUser extends React.Component {
       });
   
     }
+    console.log("this.state", this.state.storeInfo);
   }
   navigated(counter, answer, questionUniqueId) {
    this.storeuserAnswer(answer, questionUniqueId);
@@ -225,8 +275,17 @@ class QuizUser extends React.Component {
       this.state.Questions[counter].option2,
       this.state.Questions[counter].option3,
       this.state.Questions[counter].option4],
-      answer: this.state.previousAnswer
+    }, () =>{
+      this.state.storeInfo.forEach(item =>{
+        if(item.questionUniqueId === this.state.questionUniqueId){
+          this.setState({
+            answer:item.selectedAnswer
+          })
+        }
+      })
     })
+
+    
   }
 
   renderQuiz() {
@@ -247,7 +306,10 @@ class QuizUser extends React.Component {
 
   renderResult() {
     return (
-      <Result quizResult={this.state.result} />
+      <Result 
+      quizName={this.state.quizNameReturned}
+      marksObtained = { this.state.marks }
+      />
     );
   }
 
@@ -258,7 +320,7 @@ class QuizUser extends React.Component {
 
           <h2>React Quiz</h2>
         </div>
-        {this.state.result ? this.renderResult() : this.renderQuiz()}
+        {this.state.completed ? this.renderResult() : this.renderQuiz()}
       </div>
     );
   }
@@ -269,4 +331,4 @@ QuizUser.contextTypes = {
 }
 
 
-export default connect(null, { getSelectedQuiz })(QuizUser);
+export default connect(null, { getSelectedQuiz, completeQuiz, addFlashMessage })(QuizUser);

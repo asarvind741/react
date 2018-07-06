@@ -63,3 +63,16 @@ export function getAllQuizList() {
         return axios.post(`http://localhost:5000/api/quiz/get-quiz/${id}`);
     }
  }
+
+ export function completeQuiz(data, id) {
+    let currentUserId = JSON.parse(localStorage.getItem('currentUserInfo'))._id;
+    const requestOptions = {
+        'data':data,
+        'quizId': id,
+        'submittedBy':currentUserId
+    };
+
+    return dispatch => {
+        return axios.post('http://localhost:5000/api/quiz/submit-quiz', requestOptions);
+    }
+}
