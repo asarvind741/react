@@ -3,7 +3,6 @@ import update from 'react-addons-update';
 import axios from 'axios';
 import Question from './Question';
 import Quiz from './Quiz';
-import Result from './Result';
 import { getSelectedQuiz } from '../../services/QuizService';
 import { connect } from 'react-redux';
 import { completeQuiz } from '../../services/QuizService';
@@ -16,6 +15,7 @@ class QuizUser extends React.Component {
 
     this.state = {
       counter: 0,
+      quizNameSet:'',
       questionId: 1,
       questionUniqueId: '',
       question: '',
@@ -49,6 +49,7 @@ class QuizUser extends React.Component {
       .then((success) => {
         this.setState({
           question: success.data.Questions[0].question,
+          quizNameSet: success.data.quizname,
           questionUniqueId: success.data.Questions[0]._id,
           answerOptions: [
             success.data.Questions[0].option1,
@@ -94,8 +95,8 @@ class QuizUser extends React.Component {
     if (event.currentTarget.value == 'submit') {
       this.storeuserAnswer(this.state.answercheck, this.state.questioncheck);
       this.setUserAnswer(event.currentTarget.value);
-      this.props.completeQuiz(this.state.storeInfo, this.props.params.id).then(response => {
-        console.log("response", response);
+      this.props.completeQuiz(this.state.storeInfo, this.props.params.id, Date.now()).then(response => {
+
         let data = JSON.parse(response.data);
         this.setState({
           completed: true,
@@ -112,16 +113,17 @@ class QuizUser extends React.Component {
         else if(response.status == 200 && data.percentage<60){
           this.props.addFlashMessage({
             type: 'success',
-            text: "You have passed Quiz successfully."
+            text: "You were not able to pass the quiz. Please try another attempt."
           })
         }
+       
         else {
           this.props.addFlashMessage({
             type: 'error',
             text: "Error Occured"
           })
         }
-    
+        this.context.router.push('/my-quiz');
 
       })
     }
@@ -175,6 +177,7 @@ class QuizUser extends React.Component {
 
     const counter = this.state.counter + 1;
     const questionId = this.findQuestionIndex(this.state.question) + 1;
+    console.log("question id", questionId);
     if (this.state.Questions.length > counter)
       this.setState({
         counter: counter,
@@ -200,6 +203,7 @@ class QuizUser extends React.Component {
   setPreviousQuestion() {
     const counter = this.state.counter - 1;
     const questionId = this.state.questionId - 1;
+    console.log("question id previous", questionId);
 
     this.setState({
       counter: counter,
@@ -212,13 +216,11 @@ class QuizUser extends React.Component {
       this.state.Questions[counter].option3,
       this.state.Questions[counter].option4]
     },  () =>{
-      console.log("store state", this.state.storeInfo);
       this.state.storeInfo.forEach(item =>{
-        console.log("item is", item)
         if(item.questionUniqueId === this.state.questionUniqueId){
           this.setState({
             answer:item.selectedAnswer
-          }, () => { console.log("item now", item)})
+          }, () => { })
         }
       })
     })
@@ -264,10 +266,13 @@ class QuizUser extends React.Component {
   }
   navigated(counter, answer, questionUniqueId) {
    this.storeuserAnswer(answer, questionUniqueId);
+   const questionId = counter+1;
+    console.log("question id navigated", questionId);
    
 
     this.setState({
       counter: counter,
+      question:questionId,
       question: this.state.Questions[counter].question,
       questionUniqueId: this.state.Questions[counter]._id,
       answerOptions: [this.state.Questions[counter].option1,
@@ -318,9 +323,10 @@ class QuizUser extends React.Component {
       <div className="App">
         <div className="App-header">
 
-          <h2>React Quiz</h2>
+          <h2>{ this.state.quizNameSet } Quiz- Let's start </h2>
         </div>
-        {this.state.completed ? this.renderResult() : this.renderQuiz()}
+    {/*     {this.state.completed ? this.renderResult() : this.renderQuiz()} */}
+    { this.renderQuiz()}
       </div>
     );
   }

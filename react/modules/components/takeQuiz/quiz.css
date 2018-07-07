@@ -46,3 +46,31 @@ ul.answerOptions  li label{
 .heading {
   float: left;
 }
+.display-inline {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 92px;
+  background-color: #35323ae3;
+  color: white;
+}
+
+.card-body {
+  width: 270px;
+  padding: 0;
+  border: 2px solid white;
+}
+
+.card-title {
+  padding: 10px;
+  background-color: #0c0404;
+  color: white;
+ 
+}
+.card-text {
+  padding: 10px;
+}
+
+.btn.btn-primary {
+  margin: 10px;
+}
+

@@ -13,11 +13,9 @@ class Sidebar extends React.Component {
       quizList:[]
     }
    /*  axios.get('http://localhost:5000/api/quiz/get-quiz-list').then((result) => {
-      console.log(result.data);
       this.setState({quizList:result.data})
     })
     .catch((err)=> {
-      console.log(err);
     }) */
     }
     componentWillMount() {
@@ -68,9 +66,8 @@ class Sidebar extends React.Component {
 <a href="#" onClick = {this.tabChange.bind(this)}>Manage Quiz
         {(this.state.tab2 == 1)?
          <span>
-         <a href ="/create-quiz">Create a Quiz</a>
-         <a href ="#">Modify Quiz</a>
-         <a href ="#">Delete Quiz</a>
+         <a href ="/create-quiz">New Quiz</a>
+         <a href ="/manage-quiz">View History</a>
          </span>
         :null
        }

@@ -22,6 +22,7 @@ function Quiz(props) {
   }
 
   function renderAnswerOptions(key) {
+    console.log("props are", props)
     return (
       <AnswerOption
         key={key}
@@ -47,6 +48,7 @@ function Quiz(props) {
 
     <div>
       <div className="button">
+      <h4>Select Question:</h4>
           {createButtons()}
       </div>
       <QuestionCounter

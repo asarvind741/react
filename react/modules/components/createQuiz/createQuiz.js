@@ -25,7 +25,6 @@ class CreateQuiz extends Component {
 }
 componentWillMount() {
   const user = JSON.parse(localStorage.getItem('currentUserInfo'));
-  console.log(user._id)
   this.setState({createdBy:user._id})
 }
 onChange(event) {
@@ -44,11 +43,8 @@ onChange(event) {
 onSubmit(event) {
 
   event.preventDefault();
-  console.log(this.state)
   axios.post('http://localhost:5000/api/quiz/create',this.state)
   .then((result) => {
-    console.log(result)
-    console.log(addFlashMessage)
     if(result.status == 200) {
       localStorage.setItem('currentQuizId',JSON.stringify(result.data));
       this.context.router.push('/listQuiz')
@@ -73,7 +69,6 @@ onSubmit(event) {
     }
 
   }).catch((err) => {
-    console.log(err);
     addFlashMessage({
       type: 'error',
       text: err
@@ -87,10 +82,7 @@ onSubmit(event) {
 }
 
   addQuestion(data) {
-    console.log(this.state)
-    console.log("data",data);
     this.setState({Questions:[...this.state.Questions,data]})
-    console.log(this.state.Questions);
 
   }
     render() {

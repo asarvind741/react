@@ -2,7 +2,6 @@ import React from 'react';
 import './listQuiz.css';
 
 const Question = ({item}) => {
-  console.log("Question is--")
   return <div id="container">
     <p>Question  : {item.question}</p>
 

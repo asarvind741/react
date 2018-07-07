@@ -51,7 +51,6 @@ onChange(event) {
           [event.target.name]: event.target.value
       }
   );
-  console.log(event.target.name)
   if(event.target.name == 'question' && !/^[a-zA-Z0-9\-\s?<>=]{4,150}$/
 .test(this.state.question))
   this.setState({questionValidation:true})
@@ -83,7 +82,6 @@ onChange(event) {
   this.setState({correct_answerValidation:true})
   else
   this.setState({correct_answerValidation:false})
-  console.log(this.state)
 }
 
 
@@ -91,7 +89,6 @@ onChange(event) {
 canBeSubmitted() {
   const errors = validate(this.state.question, this.state.option1, this.state.option2,
     this.state.option3, this.state.option4,this.state.correct_answer);
-    console.log("errors",errors)
   const isDisabled = Object.keys(errors).some(x => errors[x]);
   return !isDisabled;
 }

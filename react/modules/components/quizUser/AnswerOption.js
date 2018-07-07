@@ -2,12 +2,13 @@ import React from 'react';
 
 
 function AnswerOption(props){
+  console.log("props", props);
     return (
     <li>
         <input type = "radio" name="radioGroup"
          checked={props.answer == props.answerContent}
          id={props.questionUniqueId}
-         key = { props.questionUniqueId }
+         key = { props.answerContent }
          value={props.answerContent}
          onChange={props.onAnswerSelected}
        />

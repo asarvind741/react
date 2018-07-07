@@ -20,10 +20,15 @@ import { setAuthorization } from '../helpers/Auth';
 
 
 class LoginPage extends Component {
+
     render() {
+        const check = localStorage.getItem('token');
         const users = this.props.users;
-        console.log("users", users);
         const { addFlashMessage, loginUserRequest, addUser, setAutherization} = this.props;
+        if(!!check){
+            console.log("test", this.context)
+            this.context.router.push('/my-quiz')
+        }
         return(
                 <LoginForm
                    addFlashMessage={addFlashMessage}
@@ -36,11 +41,16 @@ class LoginPage extends Component {
     }
 }
 
+LoginPage.contextTypes = {
+    router: React.PropTypes.object.isRequired
+}
+
 LoginPage.propTypes = {
     loginUserRequest:React.PropTypes.func.isRequired,
     addFlashMessage: React.PropTypes.func.isRequired,
     addUser:React.PropTypes.func.isRequired
   }
+
 
 function mapStateToProps(state) {
     return {

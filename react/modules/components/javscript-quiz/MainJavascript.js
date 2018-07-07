@@ -30,13 +30,11 @@ class MainJavascript extends React.Component {
 
   componentWillMount() {
     const shuffledAnswerOptions = QuizQuestions.map((question) => this.shuffleArray(question.answers));
-    console.log('suffled answer options', shuffledAnswerOptions)
     this.setState({
       question: QuizQuestions[0].question,
       correctAnswer:QuizQuestions[0].correctAnswer,
       answerOptions: shuffledAnswerOptions[0]
     });
-    console.log("answer options----", this.state.answerOptions);
   }
 
   shuffleArray(array) {
@@ -59,7 +57,6 @@ class MainJavascript extends React.Component {
   };
 
   handleAnswerSelected(event) {
-    //console.log("event-----", event.target.value);
 
     if (event.currentTarget.value === "next") {
 
@@ -71,10 +68,8 @@ class MainJavascript extends React.Component {
       }
     }
     else if (event.currentTarget.value === 'previous') {
-     // console.log("previous event", event.currentTarget.value);
 
       if (this.state.questionId > 1 || this.state.question <= QuizQuestions.length) {
-        //console.log("previous event second");
         setTimeout(() => this.setPreviousQuestion(), 300);
       }
     }
@@ -87,15 +82,12 @@ class MainJavascript extends React.Component {
   setUserAnswer(answer) {
     const correctAnswer = this.state.correctAnswer;
     const alreadySelectedAnswer = this.state.alreadySelectedAnswer;
-    console.log("answer selected by user----", answer);
     if(correctAnswer === answer && correctAnswer!= alreadySelectedAnswer){
     this.setState({
       correctAnswerCount: this.state.correctAnswerCount + 1,
       alreadySelectedAnswer:this.state.answer,
       answer: answer
     });
-
-    console.log("correct answer count is-", this.state.correctAnswerCount);
   }
 }
 
@@ -115,10 +107,8 @@ class MainJavascript extends React.Component {
   }
 
   setPreviousQuestion() {
-    console.log('inside previous function');
     const counter = this.state.counter - 1;
     const questionId = this.state.questionId - 1;
-    console.log("previous answer------", this.state.previousAnswer);
 
     this.setState({
       counter: counter,
@@ -132,13 +122,11 @@ class MainJavascript extends React.Component {
   getResults() {
     const answersCount = this.state.correctAnswerCount;
     var reusltCalculate = answersCount* 100/(QuizQuestions.length);
-    console.log("calculate result", reusltCalculate);
     reusltCalculate = reusltCalculate.toFixed(2);
     return reusltCalculate;
   }
 
   setResults(reusltCalculate) {
-    console.log("result", reusltCalculate);
     var message;
     if(reusltCalculate>=70){
       message = "You have passed quiz successfully."

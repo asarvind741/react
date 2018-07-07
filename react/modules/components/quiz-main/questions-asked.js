@@ -12,12 +12,10 @@ class QuestionsAsked extends React.Component {
     }
 
     onQuizNameChange(event){
-       // console.log("change", event.target.value);
 
         this.setState({
             noOfQuestions: event.target.value
         }, () => {
-            console.log("now state is", this.state.quizName);
         })
     }
 

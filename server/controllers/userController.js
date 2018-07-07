@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 
 
 let signupUser = (req, res) => {
-    console.log("called")
     if (!!req.body.firstName && (!!req.body.lastName) && (!!req.body.email) && (!!req.body.password)) {
 
         User.findOne({ email: req.body.email }, (err, user) => {
@@ -24,7 +23,6 @@ let signupUser = (req, res) => {
                     role: req.body.role,
                     company: req.body.company
                 }, (err, user) => {
-                    console.log(err,user)
                     if (err) {
                         res.status(500).json(err);
                     }
@@ -41,13 +39,10 @@ let signupUser = (req, res) => {
 }
 
 let loginUser = (req, res) => {
-    console.log("body", req.body)
-
     if ((!!req.body.email) && (!!req.body.password)) {
 
         User.findOne({ email: req.body.email }).exec()
             .then((user) => {
-                //console.log("user is --", user);
                 bcrypt.compare(req.body.password, user.password, (err, result) => {
                     if (err) {
                         res.status(401).json(err);
@@ -56,11 +51,12 @@ let loginUser = (req, res) => {
                         //res.status(200).json("Successfull");
                         const access_token = jwt.sign({
                             email: user.email,
-                            _id: user._id
+                            _id: user._id,
+                            date:new Date()
                         },
                             config.secret,
                             {
-                                expiresIn: '5h'
+                                expiresIn: '2h'
                             }
                         );
                         res.status(200).json({
@@ -123,10 +119,31 @@ let deleteUser = (req, res) => {
     }
 }
 
+let getUserQuizzes = (req, res) => {
+    if(!!req.body.id){
+      User.find({_id: req.body.id}, (err, user) => {
+          if(err){
+              res.status(401).json(err);
+          }
+          else if(!!user){
+              let quizzes = user[0].quizzes;
+              res.status(200).json(quizzes);
+          }
+          else {
+              res.status(400).json({Message:"No user found"});
+          }
+      })
+    }
+    else {
+      res.status(400).json({Error: "Not valid field"})
+    }
+  }
+
 module.exports = {
     signupUser,
     loginUser,
     getAllUsers,
     editUser,
-    deleteUser
+    deleteUser,
+    getUserQuizzes
 }

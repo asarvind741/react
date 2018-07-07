@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export function deleteUser(userData) {
-    console.log("user", userData);
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -16,7 +15,6 @@ export function deleteUser(userData) {
 
 // Fake Back-end 
 /* export function updateUserNow(userData) {
-    console.log("user", userData);
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -31,7 +29,6 @@ export function deleteUser(userData) {
 
 // Nodejs Back-end
 export function updateUserNow(userData) {
-    console.log("user", userData);
     const requestOptions = {
         headers: {
             'Content-Type': 'application/json'

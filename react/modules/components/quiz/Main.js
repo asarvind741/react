@@ -37,7 +37,6 @@ class Main extends React.Component {
     this.context.router.push('/login');
     else {
     const shuffledAnswerOptions = quizQuestions.map((question) => this.shuffleArray(question.answers));
-    console.log('suffled answer options', shuffledAnswerOptions)
     this.setState({
       question: quizQuestions[0].question,
       answerOptions: shuffledAnswerOptions[0]
@@ -65,7 +64,7 @@ class Main extends React.Component {
   };
 
   handleAnswerSelected(event) {
-    // console.log("event-----", event.target);
+
 
     if (event.currentTarget.value === "next") {
       if (this.state.questionId < quizQuestions.length) {
@@ -73,16 +72,13 @@ class Main extends React.Component {
       }
       else {
         submitQuiz(this.state.quizData).then((res)=>{
-          console.log("check me");
         });
         setTimeout(() => this.setResults(this.getResults()), 300);
       }
     }
     else if (event.currentTarget.value === 'previous') {
-     // console.log("previous event", event.currentTarget.value);
 
       if (this.state.questionId > 1 || this.state.question <= quizQuestions.length) {
-        //console.log("previous event second");
         setTimeout(() => this.setPreviousQuestion(), 300);
       }
     }
@@ -96,8 +92,6 @@ class Main extends React.Component {
     const updatedAnswersCount = update(this.state.answersCount, {
       [answer]: { $apply: (currentValue) => currentValue + 1 }
     });
-
-    console.log("update answer count----", updatedAnswersCount);
 
     this.setState({
       answersCount: updatedAnswersCount,
@@ -113,7 +107,6 @@ class Main extends React.Component {
       question:quizQuestions[this.state.counter].question,
       selectedAnswer: this.state.answer
     })
-    console.log("quiz data", this.state.quizData);
 
     const counter = this.state.counter + 1;
     const questionId = this.state.questionId + 1;
@@ -151,7 +144,6 @@ class Main extends React.Component {
   }
 
   setResults(result) {
-    console.log("result", result);
     if (result.length === 1) {
       this.setState({ result: result[0] });
     } else {

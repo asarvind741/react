@@ -17,14 +17,12 @@ class QuizCategory extends React.Component {
         this.setState({
             quizCategory: event.target.value
         }, () => {
-            //console.log("now state is", this.state.quizName);
         })
     }
 
     saveAndContinue(event) {
         event.preventDefault();
         let quizCategory = this.state.quizCategory;
-        // console.log("quizName", quizName);
         this.props.saveData(quizCategory);
         this.props.nextStep();
 

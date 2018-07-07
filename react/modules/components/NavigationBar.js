@@ -6,8 +6,6 @@ class NavigationBar extends Component {
     render() {
         const isLoggedIn = localStorage.getItem('isLoggedIn');
         const userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
-        console.log("logged", isLoggedIn);
-        console.log("user",userInfo);
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">

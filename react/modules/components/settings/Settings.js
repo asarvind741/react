@@ -40,23 +40,18 @@ class Settings extends Component {
 
     }
     handleChange(event, index, value) {
-        console.info(this.state)
          this.setState({company:value});
     }
 
     handleChangeRole(event, index, value) {
-        console.info(this.state)
          this.setState({role:value});
     }
 
     onSubmit(event) {
         event.preventDefault()
-        console.log(this.state);
-        console.log(this.props)
         this.props.updateUserNow(this.state).then(response=>{
             if(response.status === 200){
               //  this.props.myCallback (response.users);
-              console.log(this.state)
               localStorage.setItem('currentuser',JSON.stringify(this.state))
                 this.props.addFlashMessage({
                     type: 'success',

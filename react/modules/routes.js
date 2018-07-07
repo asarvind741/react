@@ -20,6 +20,8 @@ import QuizUser from './components/quizUser/quizUser';
 // import withStyles from './components/users/withStyles';
 import MainQuiz from './components/quiz-main/main-quiz';
 import MyQuiz from './components/my-quizes/my-quiz';
+import ManageQuiz from './components/manage-quiz/manage-quiz';
+
 
 export default (
   <Route path= "/" component = { App }>
@@ -34,12 +36,13 @@ export default (
     <Route path = 'quiz' component = {Main} />
     <Route path = 'javascript-quiz' component = { MainJavascript } />
     <Route path = 'quiz-settings' component = { QuizSettings } />
-    <Route path = 'create-quiz' component = { CreateQuiz } />
+    <Route path = 'create-quiz' component = { MainQuiz } />
     <Route path ='listQuiz' component = {ListQuiz} />
     <Route path ='take-quiz' component = {TakeQuiz} />
-    <Route path ='main-quiz' component = {MainQuiz} />
+    {/* <Route path ='main-quiz' component = {MainQuiz} /> */}
     <Route path = 'get-quiz/:id' component = {QuizUser} />
     <Route path = "my-quiz" component = { MyQuiz } />
+    <Route path = "/manage-quiz" component = { ManageQuiz } />
     {/* <Route path = "test" component = { withStyles} /> */}
   </Route>
 )

@@ -31,11 +31,9 @@ class SignupForm extends React.Component {
     onSubmit(event) {
         event.preventDefault();
         // axios.post('api/users', {user:this.state});
-        console.log(this.props.userSignupRequest)
         if(this.state.password === this.state.confirmpassword){
         this.props.userSignupRequest(this.state)
             .then((response) => {
-                console.log("res----------", response);
                 if(response.status == 200){
                 this.props.addFlashMessage({
                     type: 'success',

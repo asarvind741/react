@@ -3,7 +3,6 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
 export function userSignupRequest(user) {
-    console.log("user",user);
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -18,7 +17,6 @@ export function userSignupRequest(user) {
 
 
 export function loginUserRequest(loginUser) {
-    console.log("test login function")
     const requestOptions = {
         method: 'POST',
         headers: {

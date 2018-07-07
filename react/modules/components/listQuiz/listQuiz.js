@@ -20,14 +20,12 @@ class ListQuiz extends Component {
 
     const quiz = JSON.parse(localStorage.getItem('currentQuizId'));
     const questions = quiz.quiz.Questions.map((item) => {
-      console.log('item',item)
       return (<Questions
       key = { item._id}
       item = { item }
       />
       )
     })
-    console.log(quiz)
     return (
       <div>
       <p id="heading">You have successfully created Quiz</p>

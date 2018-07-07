@@ -4,10 +4,8 @@ const quizQuestion = require('../models/question')
 const User = require('../models/user');
 
 let getQuiz = (req, res) => {
-  console.log("id", req.params.id);
   Quiz.findById({_id:req.params.id})
     .then((success) => { 
-      console.log("success data". success);
       res.json(success) 
     })
     .catch((falied) => { res.json(falied) })
@@ -88,7 +86,8 @@ let createQuiz = (req, res) => {
           quizname:req.body.quizname,
           quizcategory: req.body.quizcategory,
           Questions: req.body.questions,
-          createdBy:req.body.createdBy
+          createdBy:req.body.createdBy,
+          createdByName: req.body.createdByName
         }, (err, quiz) => {
           if (err) {
 
@@ -124,16 +123,16 @@ let submitQuiz = (req, res) => {
       }
 
       User.findOneAndUpdate({ _id: req.body.submittedBy }, {
-        $set: {
+        $push: {
           quizzes: {
             quizId: req.body.quizId,
             quizName: quiz_name,
             totalQuestions: req.body.data.length,
-            correctAnswers: correct_answer
+            correctAnswers: correct_answer,
+            completedAt:req.body.completedAt
           }
         }
-      }, { new: true }, (error, success) => {
-        console.log("success is", success);
+      }, { new: false }, (error, success) => {
         if (error) {
           res.status(400).json(error);
         }
@@ -169,6 +168,8 @@ let getCategory = (req, res) => {
     }
   })
 }
+
+
 
 
 

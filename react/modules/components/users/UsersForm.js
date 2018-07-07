@@ -43,7 +43,6 @@ export class UsersForm extends React.Component {
         this.setState({ userslist: dataFromChild });
     }
     addUser(event){
-        console.log("check row method");
         
         var row = {
             id:this.state.userslist.length + 1,
@@ -53,18 +52,14 @@ export class UsersForm extends React.Component {
             role:"User",
             company:''
         };
-        console.log(row);
         this.state.userslist.push(row);
         this.setState({})
-        console.log(this.state.userslist);
       
     }
 
     search(event) {
-        console.log(event.target.value);
         if(event.target.value) {
         let patt = new RegExp(event.target.value, "i")
-        console.log(patt);
         let newarr = this.tempData.filter((user) => {
             if(user.firstname.search(patt) >=0 || user.email.search(patt) >=0 || user.company.search(patt) >=0 || user.role.search(patt) >=0 || user.lastname.search(patt) >=0) {
             return true;
@@ -81,11 +76,8 @@ export class UsersForm extends React.Component {
     }
    
     sortTable(event) {
-        console.log(event.currentTarget.getAttribute('data-field'));
-        console.log(this.currentFilter[event.currentTarget.getAttribute('data-field')]);
         if(typeof this.currentFilter[event.currentTarget.getAttribute('data-field')] != 'undefined') {
             ++this.currentFilter[event.currentTarget.getAttribute('data-field')];
-            console.log(this.currentFilter);
         }
         else 
         this.currentFilter[event.currentTarget.getAttribute('data-field')] = 0;
@@ -123,7 +115,6 @@ export class UsersForm extends React.Component {
         }
     }
     render() {
-        console.log("state row", this.state.userslist);
         let rows = this.state.userslist.map(person => {
             return (
                 <PersonRow key={person.id} data={person} 

@@ -21,7 +21,8 @@ const userQuizzes = {
   },
   quizName:String,
   totalQuestions:Number,
-  correctAnswers:Number
+  correctAnswers:Number,
+  completedAt:{ type: Date, default: Date.now }
 }
 const userSchema = new Schema({
     firstName: {

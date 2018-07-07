@@ -1,9 +1,8 @@
 import React from 'react';
-import History from './history';
-import './my-quiz.css'
+import ViewHistory from './view-history';
 
 
-class MyQuiz extends React.Component {
+class ManageQuiz extends React.Component {
 
   constructor(props) {
     super(props);
@@ -28,7 +27,7 @@ class MyQuiz extends React.Component {
         </ul>
         <div className="tab-content" id="myTabContent">
           <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <History />
+          <ViewHistory />
           </div>
           <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
           <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
@@ -38,4 +37,4 @@ class MyQuiz extends React.Component {
   }
 }
 
-export default MyQuiz;
+export default ManageQuiz;

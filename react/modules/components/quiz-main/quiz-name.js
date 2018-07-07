@@ -17,14 +17,12 @@ class QuizName extends React.Component {
         this.setState({
             quizName: event.target.value
         }, () => {
-            //console.log("now state is", this.state.quizName);
         })
     }
 
     saveAndContinue(event) {
         event.preventDefault();
         let quizName = this.state.quizName;
-        // console.log("quizName", quizName);
         this.props.saveData(quizName);
         this.props.nextStep();
 

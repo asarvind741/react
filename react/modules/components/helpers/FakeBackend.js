@@ -50,7 +50,6 @@ export function configureFakeBackend() {
                         
                         let user = filteredUsers[0];
                         user.isLoggedIn = params.isLoggedIn;
-                        console.log("here is the user---", user);
                         resolve({
                             status: 200,
                             statusText: 'You are logged in now. Please continue surfing...',
@@ -76,7 +75,6 @@ export function configureFakeBackend() {
 
                     if (filteredUsers.length > 0) {
                         let user = filteredUsers[0];
-                        console.log("users are---", users);
                         user.password = params.password;
                         resolve({
                             status: 200,
@@ -102,7 +100,7 @@ export function configureFakeBackend() {
 
                 if (url.endsWith('/api/user/delete') && opts.method === 'POST') {
                     let deleteUser = JSON.parse(opts.body);
-                    console.log('delete user id', deleteUser.id);
+
 
                     for(let i = 0; i<users.length; i++){
                         if(users[i].id === deleteUser.id){
@@ -116,7 +114,6 @@ export function configureFakeBackend() {
 
                 if (url.endsWith('/api/user/updateUser') && opts.method === 'POST') {
                     let updatedUser = JSON.parse(opts.body);
-                    console.log('update user id', updatedUser.id);
 
                     for(let i = 0; i<users.length; i++){
                         if(users[i].id === updatedUser.id){
@@ -129,12 +126,9 @@ export function configureFakeBackend() {
                 }
 
                 if(url.endsWith('api/user/logout') && opts.method === 'POST'){
-                    console.log(opts.body);
-
                 }
 
                 if(url.endsWith('api/user/quiz/submit') && opts.method === 'POST'){
-                    console.log(opts.body);
 
                     
 

@@ -37,7 +37,6 @@ class QuizMain extends React.Component {
          if(this.state.step == 5){
                 this.props.submitQuiz(this.state.quizData)
                 .then((response) => {
-                    console.log("response is", response);
                     if(response.status === 200){
                         this.props.addFlashMessage({
                             type: 'success',
@@ -65,7 +64,6 @@ class QuizMain extends React.Component {
         let jasper = Object.assign({}, this.state.quizData);
         if(this.state.step === 1){
         jasper.quizName = data;
-        /* console.log("jasper", jasper.quizName); */
         }
         if( this.state.step === 2){
             jasper.quizCategory = data;
@@ -79,13 +77,10 @@ class QuizMain extends React.Component {
                 jasper.questions.push(element)
                 
             });
-            console.log("jasper", jasper);
         }
       
 
         this.setState({ quizData:jasper })
-
-        console.log("quiz data", this.state.quizData)
     }
 
     render(){

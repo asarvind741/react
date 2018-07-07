@@ -27,6 +27,10 @@ const quizSchema = new Schema({
     createdBy:{
       type:mongoose.Schema.ObjectId,
       ref:'User'
+    },
+    createdByName: {
+        type: String,
+        trim: true
     }
 
 }

@@ -66,7 +66,6 @@ class PersonRow extends React.Component {
         this.setState({isEditing: true});
         else if(this.state.isEditing == true)
         this.setState({isEditing:false});
-        console.log("edit me", this.state.isEditing);
     }
 
     saveUser(event){
@@ -74,14 +73,11 @@ class PersonRow extends React.Component {
         this.setState({isEditing: true});
         else if(this.state.isEditing == true)
         this.setState({isEditing:false});
-        console.log("edit me", this.state.isEditing);
 
     }
 
     updateUser(event){
         let user = this.state.user;
-        console.log(event.target.value);
-        console.log(event.target.name)
         user[event.target.name]= event.target.value;
         this.setState(user);
         
@@ -90,7 +86,6 @@ class PersonRow extends React.Component {
     render() {
         let row = this.state.user;
         const isEditing = this.state.isEditing;
-        console.log("prps=====", this.props);
         return (
             <MuiThemeProvider>
             <TableRow>
