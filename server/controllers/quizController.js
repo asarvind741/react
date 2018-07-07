@@ -2,6 +2,7 @@
 const Quiz = require('../models/quiz');
 const quizQuestion = require('../models/question')
 const User = require('../models/user');
+const Result = require('../models/result');
 
 let getQuiz = (req, res) => {
   Quiz.findById({_id:req.params.id})
@@ -106,6 +107,7 @@ let createQuiz = (req, res) => {
 }
 
 let submitQuiz = (req, res) => {
+  console.log("request body", req.body)
   let correct_answer = 0;
   let quiz_name = '';
   Quiz.findById(req.body.quizId)
