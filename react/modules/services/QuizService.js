@@ -66,7 +66,6 @@ export function getAllQuizList() {
  }
 
  export function completeQuiz(data, id, date) {
-     console.log("data", data)
     let currentUserId = JSON.parse(localStorage.getItem('currentUserInfo'))._id;
     const requestOptions = {
         'data':data,

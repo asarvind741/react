@@ -39,7 +39,7 @@ class History extends React.Component {
             }
             const dateofCompletion = moment(item.completedAt).format("DD-MMM-YY HH:mm");
             return (
-                <tr key={item.quizId}>
+                <tr key={item.completedAt}>
                     <td>{item.quizName}</td>
                     <td>{marks}</td>
                     <td>{this.status}</td>

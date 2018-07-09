@@ -61,7 +61,7 @@ class Sidebar extends React.Component {
         :null
        }</a>
        </div>
-       {(userInfo && userInfo.role == 'Admin')?
+       {(userInfo && userInfo.role == 'Admin' || userInfo.role == 'admin')?
        <div>
 <a href="#" onClick = {this.tabChange.bind(this)}>Manage Quiz
         {(this.state.tab2 == 1)?

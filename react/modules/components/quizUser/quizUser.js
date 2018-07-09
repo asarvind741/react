@@ -7,6 +7,7 @@ import { getSelectedQuiz } from '../../services/QuizService';
 import { connect } from 'react-redux';
 import { completeQuiz } from '../../services/QuizService';
 import { addFlashMessage } from '../actions/addFlashMessage';
+import QuizResult from './quiz-result';
 
 class QuizUser extends React.Component {
 
@@ -23,7 +24,6 @@ class QuizUser extends React.Component {
       option2: '',
       option3: '',
       option4: '',
-      result: '',
       quizData: [],
       Questions: [],
       answerOptions: [],
@@ -37,7 +37,7 @@ class QuizUser extends React.Component {
       questioncheck:'',
       completed: false,
       quizNameReturned:'',
-      marks:0
+      correctAnswer:''
     };
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -51,6 +51,7 @@ class QuizUser extends React.Component {
           question: success.data.Questions[0].question,
           quizNameSet: success.data.quizname,
           questionUniqueId: success.data.Questions[0]._id,
+          correctAnswer: success.data.Questions[0].correctAnswer,
           answerOptions: [
             success.data.Questions[0].option1,
             success.data.Questions[0].option2,
@@ -58,6 +59,16 @@ class QuizUser extends React.Component {
             success.data.Questions[0].option4],
           Questions: success.data.Questions
         }, () => {
+          console.log("check")
+          this.state.Questions.forEach(question => {
+            console.log("check2")
+            let questionUniqueId = question._id;
+            let correctAnswer = question.correctAnswer;
+            let id = { 'questionUniqueId': questionUniqueId, 'selectedAnswer': '', 'correctAnswer': correctAnswer}
+            this.state.storeInfo.push(id);
+          })
+        }, () => {
+          console.log("sdsds", this.state.storeInfo);
         })
       })
       .catch((failed) => {
@@ -82,7 +93,6 @@ class QuizUser extends React.Component {
 
 
   handleAnswerSelected(event) {
-    console.log("event curre", event.currentTarget)
 
     if(event.currentTarget.value !== 'next' && event.currentTarget.value !== 'previous' && event.currentTarget.value !== 'submit')
     {
@@ -95,7 +105,7 @@ class QuizUser extends React.Component {
     
     
     if (event.currentTarget.value == 'submit') {
-      this.storeuserAnswer(this.state.answercheck, this.state.questioncheck);
+      this.storeuserAnswer(this.state.answercheck, this.state.questionUniqueId, this.state.correctAnswer);
       this.setUserAnswer(event.currentTarget.value);
       this.props.completeQuiz(this.state.storeInfo, this.props.params.id, Date.now()).then(response => {
 
@@ -125,12 +135,12 @@ class QuizUser extends React.Component {
             text: "Error Occured"
           })
         }
-        this.context.router.push('/my-quiz');
+        // this.context.router.push('/my-quiz');
 
       })
     }
     else if (event.currentTarget.value === "next") {
-        this.storeuserAnswer(this.state.answercheck, this.state.questioncheck);
+        this.storeuserAnswer(this.state.answercheck, this.state.questionUniqueId, this.state.correctAnswer);
       if (this.state.Questions.length - 1 > this.state.counter) {
         setTimeout(() => this.setNextQuestion(), 300);
       }
@@ -138,7 +148,7 @@ class QuizUser extends React.Component {
       }
     }
     else if (event.currentTarget.value === 'previous') {
-      this.storeuserAnswer(this.state.answercheck, this.state.questioncheck);
+      this.storeuserAnswer(this.state.answercheck, this.state.questionUniqueId, this.state.correctAnswer);
       
       if (this.state.counter > 1 || this.state.counter <= this.state.Questions.length) {
         setTimeout(() => this.setPreviousQuestion(), 300);
@@ -235,15 +245,7 @@ class QuizUser extends React.Component {
     return answersCountKeys.filter((key) => answersCount[key] === maxAnswerCount);
   }
 
-  setResults(result) {
-    if (result.length === 1) {
-      this.setState({ result: result[0] });
-    } else {
-      this.setState({ result: 'Undetermined' });
-    }
-  }
-
-  storeuserAnswer(answer, questionUniqueId){
+  storeuserAnswer(answer, questionUniqueId, correctAnswer){
     let check = false;
     this.state.storeInfo.forEach(item => {
       if (item.questionUniqueId === questionUniqueId) {
@@ -256,13 +258,14 @@ class QuizUser extends React.Component {
     if(check === false){
       this.state.storeInfo.push({
         'questionUniqueId': questionUniqueId,
-        'selectedAnswer': answer
+        'selectedAnswer': answer,
+        'correctAnswer': correctAnswer
       });
   
     }
   }
   navigated(counter, answer, questionUniqueId) {
-   this.storeuserAnswer(answer, questionUniqueId);
+   this.storeuserAnswer(answer, questionUniqueId, this.state.correctAnswer);
    const questionId = counter+1;
    
 
@@ -271,6 +274,7 @@ class QuizUser extends React.Component {
       question:questionId,
       question: this.state.Questions[counter].question,
       questionUniqueId: this.state.Questions[counter]._id,
+      correctAnswer: this.state.Questions[counter].correctAnswer,
       answerOptions: [this.state.Questions[counter].option1,
       this.state.Questions[counter].option1,
       this.state.Questions[counter].option2,
@@ -306,12 +310,10 @@ class QuizUser extends React.Component {
   }
 
   renderResult() {
-    return (
-      <Result 
-      quizName={this.state.quizNameReturned}
-      marksObtained = { this.state.marks }
-      />
-    );
+    return(
+      <QuizResult
+      result = { this.state.storeInfo} />
+    )
   }
 
   render() {
@@ -321,8 +323,7 @@ class QuizUser extends React.Component {
 
           <h2>{ this.state.quizNameSet } Quiz- Let's start </h2>
         </div>
-    {/*     {this.state.completed ? this.renderResult() : this.renderQuiz()} */}
-    { this.renderQuiz()}
+    {this.state.completed ? this.renderResult() : this.renderQuiz()}
       </div>
     );
   }

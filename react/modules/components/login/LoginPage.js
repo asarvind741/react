@@ -26,7 +26,6 @@ class LoginPage extends Component {
         const users = this.props.users;
         const { addFlashMessage, loginUserRequest, addUser, setAutherization} = this.props;
         if(!!check){
-            console.log("test", this.context)
             this.context.router.push('/my-quiz')
         }
         return(
