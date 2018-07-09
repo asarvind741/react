@@ -7,20 +7,20 @@ class AddQuestion extends React.Component {
         this.state = {
             questions: []
         }
-    
+
 
         this.onQuestionChange = this.onQuestionChange.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
     }
-    componentWillMount(){
-         for (let i = 0; i < this.props.noOfQuestions; i++) {
-            let  questionObj = {
+    componentWillMount() {
+        for (let i = 0; i < this.props.noOfQuestions; i++) {
+            let questionObj = {
                 question: null,
                 option1: null, option2: null, option3: null, option4: null,
                 correctAnswer: null
             }
-              this.state.questions.push(questionObj);
-          }
+            this.state.questions.push(questionObj);
+        }
     }
 
     onQuestionChange(event, index) {
@@ -47,9 +47,18 @@ class AddQuestion extends React.Component {
             this.state.questions[index] = selectedQuestion
         }
         else if (name === 'correctAnswer') {
-            selectedQuestion.correctAnswer = event.target.value;
-            this.state.questions[index] = selectedQuestion
-        }
+            let id = event.target.id;
+             if(id == "option1")
+             selectedQuestion.correctAnswer = selectedQuestion.option1;
+             else if(id == "option2")
+             selectedQuestion.correctAnswer = selectedQuestion.option2;
+             else if(id == "option3")
+             selectedQuestion.correctAnswer = selectedQuestion.option3;
+             else if(id == "option4")
+             selectedQuestion.correctAnswer = selectedQuestion.option4;
+
+        this.state.questions[index] = selectedQuestion
+         }
 
     }
 
@@ -76,7 +85,7 @@ class AddQuestion extends React.Component {
                             type="text"
                             value={item.question}
                             name="question"
-                            className = "question-class"
+                            className="question-class"
                             onChange={(event) => this.onQuestionChange(event, i)}
                         />
                     </div>
@@ -84,7 +93,13 @@ class AddQuestion extends React.Component {
                     <div className="option-class">
                         <label className="control-label">
                             Option 1
-                 </label>
+                        </label>
+                        <input type="radio"
+                           name="correctAnswer"
+                           id = "option1"
+                           //checked = { item.correctAnswer === item.option1}
+                           onChange={(event) => this.onQuestionChange(event, i)}
+                        />
                         <input
                             type="text"
                             name="option1"
@@ -98,6 +113,12 @@ class AddQuestion extends React.Component {
                         <label className="control-label">
                             Option 2
                          </label>
+                        <input type="radio"
+                            name="correctAnswer"
+                            id = "option2"
+                            //checked = { item.correctAnswer === item.option2}
+                            //checked={item.correctAnswer === item.option2} 
+                            onChange={(event) => this.onQuestionChange(event, i)} />
                         <input
                             type="text"
                             name="option2"
@@ -110,6 +131,11 @@ class AddQuestion extends React.Component {
                         <label className="control-label">
                             Option 3
                         </label>
+                        <input type="radio"
+                            name="correctAnswer"
+                            id="option3"
+                            //checked = { item.correctAnswer === item.option3}
+                            onChange={(event) => this.onQuestionChange(event, i)} />
                         <input
                             type="text"
                             name="option3"
@@ -122,6 +148,11 @@ class AddQuestion extends React.Component {
                         <label className="control-label">
                             Option 4
                         </label>
+                        <input type="radio"
+                            name="correctAnswer"
+                            id="option4"
+                           // checked = { item.correctAnswer === item.option4}
+                            onChange={(event) => this.onQuestionChange(event, i)}/>
                         <input
                             type="text"
                             name="option4"
@@ -131,7 +162,7 @@ class AddQuestion extends React.Component {
                         />
                     </div>
 
-                    <div className="option-class">
+                    {/*                     <div className="option-class">
                         <label className="control-label">
                             Correct Answer
                          </label>
@@ -141,7 +172,7 @@ class AddQuestion extends React.Component {
                             value={item.correctAnswer}
                             onChange={(event) => this.onQuestionChange(event, i)}
                         />
-                    </div>
+                    </div> */}
                 </form>
             )
         })
@@ -149,7 +180,7 @@ class AddQuestion extends React.Component {
         return (
             <div>
                 {renderItem}
-                <button className = "button-class" onClick={this.saveAndContinue}>Create</button>
+                <button className="button-class" onClick={this.saveAndContinue}>Create</button>
             </div>
         )
     }

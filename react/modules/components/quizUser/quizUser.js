@@ -82,6 +82,8 @@ class QuizUser extends React.Component {
 
 
   handleAnswerSelected(event) {
+    console.log("event curre", event.currentTarget)
+
     if(event.currentTarget.value !== 'next' && event.currentTarget.value !== 'previous' && event.currentTarget.value !== 'submit')
     {
      this.setState({
@@ -177,7 +179,6 @@ class QuizUser extends React.Component {
 
     const counter = this.state.counter + 1;
     const questionId = this.findQuestionIndex(this.state.question) + 1;
-    console.log("question id", questionId);
     if (this.state.Questions.length > counter)
       this.setState({
         counter: counter,
@@ -203,7 +204,6 @@ class QuizUser extends React.Component {
   setPreviousQuestion() {
     const counter = this.state.counter - 1;
     const questionId = this.state.questionId - 1;
-    console.log("question id previous", questionId);
 
     this.setState({
       counter: counter,
@@ -244,8 +244,6 @@ class QuizUser extends React.Component {
   }
 
   storeuserAnswer(answer, questionUniqueId){
-    console.log("answer",answer);
-    console.log("question id", questionUniqueId);
     let check = false;
     this.state.storeInfo.forEach(item => {
       if (item.questionUniqueId === questionUniqueId) {
@@ -262,12 +260,10 @@ class QuizUser extends React.Component {
       });
   
     }
-    console.log("this.state", this.state.storeInfo);
   }
   navigated(counter, answer, questionUniqueId) {
    this.storeuserAnswer(answer, questionUniqueId);
    const questionId = counter+1;
-    console.log("question id navigated", questionId);
    
 
     this.setState({

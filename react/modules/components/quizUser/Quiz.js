@@ -1,6 +1,7 @@
 import React from 'react';
 import Question from './Question';
 import QuestionCounter from './QuestionCounter';
+import Timer from './timer';
 import AnswerOption from './AnswerOption';
 import { addFlashMessage } from '../../components/actions/addFlashMessage';
 import { connect } from 'react-redux';
@@ -22,7 +23,6 @@ function Quiz(props) {
   }
 
   function renderAnswerOptions(key) {
-    console.log("props are", props)
     return (
       <AnswerOption
         key={key}
@@ -51,6 +51,8 @@ function Quiz(props) {
       <h4>Select Question:</h4>
           {createButtons()}
       </div>
+      <Timer 
+      onAnswerSelected={props.onAnswerSelected}/>
       <QuestionCounter
         counter={props.counter}
         total={props.questionTotal} />

@@ -113,11 +113,14 @@ let submitQuiz = (req, res) => {
   Quiz.findById(req.body.quizId)
     .then((success) => {
       let questions = success.Questions
+      console.log("questions are-----------", questions);
       quiz_name = success.quizname;
       for (let i = 0; i < req.body.data.length; i++) {
         for (let j = 0; j < questions.length; j++) {
+          console.log("requs;dsdsd are-----------", req.body.data[i].questionUniqueId);
           if (req.body.data[i].questionUniqueId == questions[j]._id) {
             if ((req.body.data[i].selectedAnswer) == (questions[j].correctAnswer)) {
+              console.log("test me")
               correct_answer++;
             }
           }

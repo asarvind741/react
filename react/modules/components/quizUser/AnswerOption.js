@@ -2,7 +2,6 @@ import React from 'react';
 
 
 function AnswerOption(props){
-  console.log("props", props);
     return (
     <li>
         <input type = "radio" name="radioGroup"

@@ -31,33 +31,38 @@ class QuizMain extends React.Component {
     }
 
     nextStep(){
-        this.setState({
-            step : this.state.step + 1
-        }, () => {
-         if(this.state.step == 5){
-                this.props.submitQuiz(this.state.quizData)
-                .then((response) => {
-                    if(response.status === 200){
-                        this.props.addFlashMessage({
-                            type: 'success',
-                            text: 'Quiz has been created successfully'
-                        })
-                        this.setState({
-                            isSubmit:true
-                        })
-                    }
-                   
-                    
-                })
-                .catch((err) => {
-                    this.props.addFlashMessage ({
-                        type: 'error',
-                        text: 'You have submitted invalid quiz request'
+
+        if(this.state.step === 4){
+            this.props.submitQuiz(this.state.quizData)
+            .then((response) => {
+                if(response.status === 200){
+                    this.props.addFlashMessage({
+                        type: 'success',
+                        text: 'Quiz has been created successfully'
                     })
-                })
+                    this.setState({
+                        isSubmit:true
+                    })
+                }
+                this.context.router.push('/manage-quiz')
+               
                 
-            }
-        })
+            })
+            .catch((err) => {
+                this.props.addFlashMessage ({
+                    type: 'error',
+                    text: 'You have submitted invalid quiz request'
+                })
+            })
+            
+        }
+        else{
+            this.setState({
+                step : this.state.step + 1
+            })
+        }
+
+       
     }
 
     saveData(data){
@@ -106,12 +111,16 @@ class QuizMain extends React.Component {
              saveData = { this.saveData }
              noOfQuestions = { this.state.quizData.noOfQuestions }
              />
-            case 5:
+          /*   case 5:
             return  <Success
             isSubmit = { this.state.isSubmit }
-            />
+            /> */
         }
     }
+}
+
+QuizMain.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }
 
 export default connect(null, { submitQuiz, addFlashMessage })(QuizMain);

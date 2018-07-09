@@ -19,7 +19,6 @@ export function submitQuiz(data) {
     let userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
     let currentUserId = userInfo._id;
     let createdByName = `${userInfo.firstName} ${userInfo.lastName}`;
-    console.log("created", createdByName);
     const requestOptions = {
         'quizname':data.quizName,
         'questions':data.questions,
@@ -67,6 +66,7 @@ export function getAllQuizList() {
  }
 
  export function completeQuiz(data, id, date) {
+     console.log("data", data)
     let currentUserId = JSON.parse(localStorage.getItem('currentUserInfo'))._id;
     const requestOptions = {
         'data':data,

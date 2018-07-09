@@ -18,7 +18,6 @@ class ViewHistory extends React.Component {
     componentWillMount() {
         this.props.getAllQuizList().then(response => {
             if (response.status == 200) {
-                console.log('response.data', response.data);
                 this.setState({
                     quizzes: response.data.quizes
                 }, () => {

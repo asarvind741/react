@@ -39,7 +39,6 @@ class ShowAvailableQuiz extends React.Component {
 
   render() {
     const quizName = this.state.quizList.map(quizName => {
-      console.log("quizssssssssss", quizName)
      /*  return (
         <div key={quizName._id}>
           <div className='quizlist'>
