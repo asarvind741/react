@@ -78,17 +78,37 @@ button {
  }
 
  .input-button-result {
-   margin: 8px;
-  display: block;
-  width: fit-content;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: block;
+    width: fit-content;
+    border: 2px solid #367d36;
+    padding: 5px;
+    border-radius: 16px;
+    font-size: 17px;
+    font-style: italic;
  }
 
  .form-control-plaintext {
   display: inline-block;
-    font-size: 20px;
-    width: calc(100% - 100px);
+    width: calc(100% - 150px);
+    color: white;
+    font-style: italic;
+    font-family: monospace;
+    font-size: 25px;
 }
 label {
-  width: 100px;
-  font-size: 20px;
+  width: 150px;
+  font-size: 22px;
+}
+
+form {
+  background-color: #198cc3;
+  padding-left: 39px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 7px;
+  color: white;
+    font-style: italic;
+    font-family: monospace;
 }

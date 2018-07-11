@@ -59,9 +59,7 @@ class QuizUser extends React.Component {
             success.data.Questions[0].option4],
           Questions: success.data.Questions
         }, () => {
-          console.log("check")
           this.state.Questions.forEach(question => {
-            console.log("check2")
             let questionUniqueId = question._id;
             let correctAnswer = question.correctAnswer;
             let id = { 'questionUniqueId': questionUniqueId,
@@ -71,7 +69,6 @@ class QuizUser extends React.Component {
             this.state.storeInfo.push(id);
           })
         }, () => {
-          console.log("sdsds", this.state.storeInfo);
         })
       })
       .catch((failed) => {
@@ -112,7 +109,6 @@ class QuizUser extends React.Component {
       this.props.completeQuiz(this.state.storeInfo, this.props.params.id, Date.now()).then(response => {
 
         let data = JSON.parse(response.data);
-        console.log('Data issssssss', data);
         this.setState({
           completed: true,
           quizNameReturned: data.quizname,

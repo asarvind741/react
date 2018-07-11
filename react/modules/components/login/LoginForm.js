@@ -42,7 +42,7 @@ class LoginForm extends React.Component {
                         text: response.statusText
                     });
                     const user = JSON.stringify(response.data.user);
-                    console.log("response",user)
+       
                    // this.props.setAutherization(response.user);
                    localStorage.setItem('currentUserInfo', user);
                    localStorage.setItem('token',response.data.token)

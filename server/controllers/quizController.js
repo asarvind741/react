@@ -147,7 +147,6 @@ let submitQuiz = (req, res) => {
               let value = element.correctAnswers*100/element.totalQuestions;
               let statusResult;
               if(value>=60){
-                console.log("value is", value)
                 statusResult = 'Pass'
               }
               else {

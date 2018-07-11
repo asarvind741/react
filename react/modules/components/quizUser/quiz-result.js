@@ -41,7 +41,6 @@ class QuizResult extends React.Component {
     let correctPercent = 0;
     let inCorrectPercent = 0;
     let counter = 0;
-    console.log("data", data);
     this.setState({
       storeInfo: data
     });
@@ -93,7 +92,7 @@ class QuizResult extends React.Component {
 
 
   render() {
-    console.log('state data', this.state.data)
+
     if (this.state.buttonClicked) {
       return(
         <QuizResultDetails
@@ -133,6 +132,10 @@ class QuizResult extends React.Component {
       )
     }
   }
+}
+
+QuizResult.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 export default QuizResult;
