@@ -16,7 +16,7 @@ class QuizUser extends React.Component {
 
     this.state = {
       counter: 0,
-      quizNameSet:'',
+      quizNameSet: '',
       questionId: 1,
       questionUniqueId: '',
       question: '',
@@ -33,11 +33,11 @@ class QuizUser extends React.Component {
       },
 
       answer: '',
-      answercheck:'',
-      questioncheck:'',
+      answercheck: '',
+      questioncheck: '',
       completed: false,
-      quizNameReturned:'',
-      correctAnswer:''
+      quizNameReturned: '',
+      correctAnswer: ''
     };
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -64,7 +64,10 @@ class QuizUser extends React.Component {
             console.log("check2")
             let questionUniqueId = question._id;
             let correctAnswer = question.correctAnswer;
-            let id = { 'questionUniqueId': questionUniqueId, 'selectedAnswer': '', 'correctAnswer': correctAnswer}
+            let id = { 'questionUniqueId': questionUniqueId,
+                       'selectedAnswer': '', 'correctAnswer': correctAnswer,
+                       'question': question };
+                       
             this.state.storeInfo.push(id);
           })
         }, () => {
@@ -94,41 +97,42 @@ class QuizUser extends React.Component {
 
   handleAnswerSelected(event) {
 
-    if(event.currentTarget.value !== 'next' && event.currentTarget.value !== 'previous' && event.currentTarget.value !== 'submit')
-    {
-     this.setState({
-       answercheck:event.currentTarget.value,
-       questioncheck:event.currentTarget.id
-     })
+    if (event.currentTarget.value !== 'next' && event.currentTarget.value !== 'previous' && event.currentTarget.value !== 'submit') {
+      this.setState({
+        answercheck: event.currentTarget.value,
+        questioncheck: event.currentTarget.id
+      })
     }
-    
-    
-    
+
+
+
     if (event.currentTarget.value == 'submit') {
       this.storeuserAnswer(this.state.answercheck, this.state.questionUniqueId, this.state.correctAnswer);
       this.setUserAnswer(event.currentTarget.value);
       this.props.completeQuiz(this.state.storeInfo, this.props.params.id, Date.now()).then(response => {
 
         let data = JSON.parse(response.data);
+        console.log('Data issssssss', data);
         this.setState({
           completed: true,
           quizNameReturned: data.quizname,
-          marks:data.percentage
+          marks: data.percentage,
+          statusResult: data.statusResult
         })
-        
-        if(response.status == 200 && data.percentage>=60){
+
+        if (response.status == 200 && data.percentage >= 60) {
           this.props.addFlashMessage({
             type: 'success',
             text: "You have passed Quiz successfully."
           })
         }
-        else if(response.status == 200 && data.percentage<60){
+        else if (response.status == 200 && data.percentage < 60) {
           this.props.addFlashMessage({
             type: 'success',
             text: "You were not able to pass the quiz. Please try another attempt."
           })
         }
-       
+
         else {
           this.props.addFlashMessage({
             type: 'error',
@@ -140,7 +144,7 @@ class QuizUser extends React.Component {
       })
     }
     else if (event.currentTarget.value === "next") {
-        this.storeuserAnswer(this.state.answercheck, this.state.questionUniqueId, this.state.correctAnswer);
+      this.storeuserAnswer(this.state.answercheck, this.state.questionUniqueId, this.state.correctAnswer);
       if (this.state.Questions.length - 1 > this.state.counter) {
         setTimeout(() => this.setNextQuestion(), 300);
       }
@@ -149,7 +153,7 @@ class QuizUser extends React.Component {
     }
     else if (event.currentTarget.value === 'previous') {
       this.storeuserAnswer(this.state.answercheck, this.state.questionUniqueId, this.state.correctAnswer);
-      
+
       if (this.state.counter > 1 || this.state.counter <= this.state.Questions.length) {
         setTimeout(() => this.setPreviousQuestion(), 300);
       }
@@ -200,15 +204,15 @@ class QuizUser extends React.Component {
         this.state.Questions[counter].option2,
         this.state.Questions[counter].option3,
         this.state.Questions[counter].option4]
-      }, () =>{
-        this.state.storeInfo.forEach(item =>{
-          if(item.questionUniqueId === this.state.questionUniqueId){
+      }, () => {
+        this.state.storeInfo.forEach(item => {
+          if (item.questionUniqueId === this.state.questionUniqueId) {
             this.setState({
-              answer:item.selectedAnswer
+              answer: item.selectedAnswer
             })
           }
         })
-      } );
+      });
   }
 
   setPreviousQuestion() {
@@ -225,11 +229,11 @@ class QuizUser extends React.Component {
       this.state.Questions[counter].option2,
       this.state.Questions[counter].option3,
       this.state.Questions[counter].option4]
-    },  () =>{
-      this.state.storeInfo.forEach(item =>{
-        if(item.questionUniqueId === this.state.questionUniqueId){
+    }, () => {
+      this.state.storeInfo.forEach(item => {
+        if (item.questionUniqueId === this.state.questionUniqueId) {
           this.setState({
-            answer:item.selectedAnswer
+            answer: item.selectedAnswer
           }, () => { })
         }
       })
@@ -245,7 +249,7 @@ class QuizUser extends React.Component {
     return answersCountKeys.filter((key) => answersCount[key] === maxAnswerCount);
   }
 
-  storeuserAnswer(answer, questionUniqueId, correctAnswer){
+  storeuserAnswer(answer, questionUniqueId, correctAnswer) {
     let check = false;
     this.state.storeInfo.forEach(item => {
       if (item.questionUniqueId === questionUniqueId) {
@@ -255,23 +259,23 @@ class QuizUser extends React.Component {
       }
     }
     )
-    if(check === false){
+    if (check === false) {
       this.state.storeInfo.push({
         'questionUniqueId': questionUniqueId,
         'selectedAnswer': answer,
         'correctAnswer': correctAnswer
       });
-  
+
     }
   }
   navigated(counter, answer, questionUniqueId) {
-   this.storeuserAnswer(answer, questionUniqueId, this.state.correctAnswer);
-   const questionId = counter+1;
-   
+    this.storeuserAnswer(answer, questionUniqueId, this.state.correctAnswer);
+    const questionId = counter + 1;
+
 
     this.setState({
       counter: counter,
-      question:questionId,
+      question: questionId,
       question: this.state.Questions[counter].question,
       questionUniqueId: this.state.Questions[counter]._id,
       correctAnswer: this.state.Questions[counter].correctAnswer,
@@ -280,17 +284,17 @@ class QuizUser extends React.Component {
       this.state.Questions[counter].option2,
       this.state.Questions[counter].option3,
       this.state.Questions[counter].option4],
-    }, () =>{
-      this.state.storeInfo.forEach(item =>{
-        if(item.questionUniqueId === this.state.questionUniqueId){
+    }, () => {
+      this.state.storeInfo.forEach(item => {
+        if (item.questionUniqueId === this.state.questionUniqueId) {
           this.setState({
-            answer:item.selectedAnswer
+            answer: item.selectedAnswer
           })
         }
       })
     })
 
-    
+
   }
 
   renderQuiz() {
@@ -310,20 +314,23 @@ class QuizUser extends React.Component {
   }
 
   renderResult() {
-    return(
+    return (
       <QuizResult
-      result = { this.state.storeInfo} />
+        result={this.state.storeInfo}
+        statusResult = { this.state.statusResult } />
     )
   }
 
   render() {
     return (
       <div className="App">
-        <div className="App-header">
 
-          <h2>{ this.state.quizNameSet } Quiz- Let's start </h2>
-        </div>
-    {this.state.completed ? this.renderResult() : this.renderQuiz()}
+        {!this.state.completed ?
+          <div className="App-header">
+            <h2>{this.state.quizNameSet} Quiz- Let's start </h2>
+            {this.renderQuiz()}
+          </div>
+          : this.renderResult()}
       </div>
     );
   }

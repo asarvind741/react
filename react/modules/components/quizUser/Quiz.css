@@ -60,3 +60,19 @@ button {
   -ms-user-select: none;
   user-select: none; 
  }
+ .quiz-result {
+   display: inline-block;
+   width: 50%;
+   vertical-align: top; 
+ }
+
+ .border-for-left-div {
+  border-right-style: ridge;
+ }
+
+ .table-for-quiz-result{
+   color: white
+ }
+ .summary{
+  margin-left: 40%;
+ }

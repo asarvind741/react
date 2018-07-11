@@ -15,7 +15,8 @@ ReactDOM.render(
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, browserHistory } from 'react-router';
+// import { Router, browserHistory } from 'react-router';
+import { Router, hashHistory } from 'react-router';
 
 import routes from './modules/routes';
 import rootReducer from './modules/components/rootReducers';
@@ -44,5 +45,5 @@ const store = createStore(
 
 ReactDOM.render(
    <Provider store = {store}>
-      <Router history = {browserHistory} routes = {routes} />
+      <Router history = {hashHistory} routes = {routes} />
    </Provider>, document.getElementById('app'));

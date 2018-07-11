@@ -19,6 +19,10 @@ class Timer extends React.Component {
         this.props.onAnswerSelected(event);
     }
 
+    shouldComponentUpdate(){
+        return false;
+    }
+
     render() {
         const Completionist = () => <span>You are good to go!</span>;
 

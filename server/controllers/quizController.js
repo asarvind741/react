@@ -145,7 +145,17 @@ let submitQuiz = (req, res) => {
           success.quizzes.forEach(element => { 
             if(req.body.quizId == element.quizId){
               let value = element.correctAnswers*100/element.totalQuestions;
-              result = `{"percentage": "${value}", "quizname":"${element.quizName}"}`
+              let statusResult;
+              if(value>=60){
+                console.log("value is", value)
+                statusResult = 'Pass'
+              }
+              else {
+                statusResult = 'Fail'
+              }
+              result = `{"percentage": "${value}", 
+              "quizname":"${element.quizName}", 
+              "statusResult": "${statusResult}"}`
             }            
           });
           res.status(200).json(result);
