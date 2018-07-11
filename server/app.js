@@ -30,9 +30,11 @@ app.use((req, res, next) => {
 
 require('./routes')(app);
 
+
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  let err = new Error('Na mIla');
+  let err = new Error('Not found This page');
   err.status = 404;
   next(err);
 });

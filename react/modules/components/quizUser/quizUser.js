@@ -66,8 +66,8 @@ class QuizUser extends React.Component {
             let correctAnswer = question.correctAnswer;
             let id = { 'questionUniqueId': questionUniqueId,
                        'selectedAnswer': '', 'correctAnswer': correctAnswer,
-                       'question': question };
-                       
+                       'question': question};
+                        
             this.state.storeInfo.push(id);
           })
         }, () => {

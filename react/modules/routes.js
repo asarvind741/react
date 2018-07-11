@@ -42,7 +42,7 @@ export default (
     {/* <Route path ='main-quiz' component = {MainQuiz} /> */}
     <Route path = 'get-quiz/:id' component = {QuizUser} />
     <Route path = "my-quiz" component = { MyQuiz } />
-    <Route path = "/manage-quiz" component = { ManageQuiz } />
+    <Route path = "manage-quiz" component = { ManageQuiz } />
     {/* <Route path = "test" component = { withStyles} /> */}
   </Route>
 )

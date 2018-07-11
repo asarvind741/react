@@ -12,11 +12,15 @@ ReactDOM.render(
 );
  */
 
+// BrowserHistory/hashHistory Tutorial- http://czytelny.com/post/2016/react_browserhistory/
+//Another tutorial for browserHistory/HashHistory-https://code.i-harness.com/en/q/229bc93
+//Another tutorial = https://medium.com/@pshrmn/a-little-bit-of-history-f245306f48dd
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-// import { Router, browserHistory } from 'react-router';
-import { Router, hashHistory } from 'react-router';
+import { Router, browserHistory } from 'react-router';
+//import { Router, hashHistory } from 'react-router';
 
 import routes from './modules/routes';
 import rootReducer from './modules/components/rootReducers';
@@ -42,8 +46,17 @@ const store = createStore(
 )
 
 
+//Using browserHistory
 
 ReactDOM.render(
    <Provider store = {store}>
-      <Router history = {hashHistory} routes = {routes} />
+      <Router history = {browserHistory} routes = {routes} />
    </Provider>, document.getElementById('app'));
+
+
+//Using hashHisoty
+/* 
+ReactDOM.render(
+  <Provider store = {store}>
+     <Router history = {hashHistory} routes = {routes} />
+  </Provider>, document.getElementById('app')); */
