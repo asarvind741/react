@@ -6,6 +6,7 @@ const answerSchema = new Schema({
       type:mongoose.Schema.ObjectId,
       unique:true
   },
+  question: String,
   correctAnswer:String,
   selectedAnswer: String
   })

@@ -23,7 +23,7 @@ class QuizResultDetails extends React.Component {
 
             return (
                 <div  className = "form-group">
-                    <label className = "label-class-name">Question {i + 1}:</label>
+                    <label>Question {i + 1}:</label>
                     <input type="text" className = "form-control-plaintext" value={item.question.question} readOnly />
                     <input type = "text" className = {`input-button-result ${ this.applyClass(item.question.option1, item.selectedAnswer, item.question.correctAnswer)}`} value = { item.question.option1} />
                     <input type = "text" className = {`input-button-result ${ this.applyClass(item.question.option2, item.selectedAnswer, item.question.correctAnswer)}`} value = { item.question.option2} />
@@ -36,7 +36,7 @@ class QuizResultDetails extends React.Component {
         return (
             <div>
                 <h1>Here we wil display records...</h1>
-                <form className = "form-class-name">
+                <form>
                     { itemShow }
                 </form>
             </div>

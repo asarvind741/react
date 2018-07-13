@@ -14,6 +14,19 @@ const salt = bcrypt.genSaltSync(10);
 let hashPassword =(password) => {
    return bcrypt.hashSync(password, salt)
 }
+const questionSchema = new Schema({
+    question:{
+      type:String,
+      unique:true
+  },
+  
+  option1:String,
+  option2:String,
+  option3:String,
+  option4:String,
+  correctAnswer:String,
+  selectedAnswer:String
+  })
 const userQuizzes = {
   quizId : {
     type:mongoose.Schema.ObjectId,
@@ -22,7 +35,8 @@ const userQuizzes = {
   quizName:String,
   totalQuestions:Number,
   correctAnswers:Number,
-  completedAt:{ type: Date, default: Date.now }
+  question: [questionSchema],
+  completedAt:String
 }
 const userSchema = new Schema({
     firstName: {

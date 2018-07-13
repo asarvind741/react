@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment';
 export const SUBMIT_QUIZ_REQUEST = 'SUBMIT_QUIZ_REQUEST';
 
 /* export function submitQuiz(data) {
@@ -66,12 +67,29 @@ export function getAllQuizList() {
  }
 
  export function completeQuiz(data, id, date) {
+     console.log('data is--------', data);
     let currentUserId = JSON.parse(localStorage.getItem('currentUserInfo'))._id;
+    let data2 = [];
+    data.forEach(element => {
+        let data1 = {};
+        console.log("element is", element)
+        data1.question = element.question.question;
+        data1.option1 = element.question.option1,
+        data1.option2 = element.question.option2,
+        data1.option3 = element.question.option3,
+        data.option4 = element.question.option4,
+        data1.correctAnswer = element.question.correctAnswer,
+        data1.selectedAnswer = element.selectedAnswer 
+        data2.push(data1);
+    });
+
+    console.log('dat1', data2);
+
     const requestOptions = {
-        'data':data,
+        'data':data2,
         'quizId': id,
         'submittedBy':currentUserId,
-        'completedAt': date
+        'completedAt': moment(date).format('MMM/do/YYYY hh:mm:ss')
     };
 
     return dispatch => {

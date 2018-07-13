@@ -41,18 +41,23 @@ let signupUser = (req, res) => {
 let loginUser = (req, res) => {
     if ((!!req.body.email) && (!!req.body.password)) {
 
-        User.findOne({ email: req.body.email }).exec()
-            .then((user) => {
+        User.findOne({ email: req.body.email }, (err, user) => {
+            if (err) {
+                res.status(400).json({ Error: 'Unknown Error occured...' });
+            }
+
+            else if (!!user) {
                 bcrypt.compare(req.body.password, user.password, (err, result) => {
                     if (err) {
                         res.status(401).json(err);
                     }
                     else if (result) {
+                        console.log("result", result);
                         //res.status(200).json("Successfull");
                         const access_token = jwt.sign({
                             email: user.email,
                             _id: user._id,
-                            date:new Date()
+                            date: new Date()
                         },
                             config.secret,
                             {
@@ -62,14 +67,18 @@ let loginUser = (req, res) => {
                         res.status(200).json({
                             success: "Welcome",
                             token: `Bearer ${access_token}`,
-                            user:user
+                            user: user
                         })
                     }
                     else {
                         res.status(401).json({ Message: 'Unauthorize access' })
                     }
                 })
-            })
+            }
+            else if(!user){
+                res.status(401).json({ Message: 'User does not exist..' })
+            }
+        })
     }
     else {
         res.status(401).json({ Error: "Field is missing" });
@@ -120,24 +129,24 @@ let deleteUser = (req, res) => {
 }
 
 let getUserQuizzes = (req, res) => {
-    if(!!req.body.id){
-      User.find({_id: req.body.id}, (err, user) => {
-          if(err){
-              res.status(401).json(err);
-          }
-          else if(!!user){
-              let quizzes = user[0].quizzes;
-              res.status(200).json(quizzes);
-          }
-          else {
-              res.status(400).json({Message:"No user found"});
-          }
-      })
+    if (!!req.body.id) {
+        User.find({ _id: req.body.id }, (err, user) => {
+            if (err) {
+                res.status(401).json(err);
+            }
+            else if (!!user) {
+                let quizzes = user[0].quizzes;
+                res.status(200).json(quizzes);
+            }
+            else {
+                res.status(400).json({ Message: "No user found" });
+            }
+        })
     }
     else {
-      res.status(400).json({Error: "Not valid field"})
+        res.status(400).json({ Error: "Not valid field" })
     }
-  }
+}
 
 module.exports = {
     signupUser,

@@ -107,6 +107,7 @@ let createQuiz = (req, res) => {
 }
 
 let submitQuiz = (req, res) => {
+  //console.log("req body", req.body);
 
   let correct_answer = 0;
   let quiz_name = '';
@@ -115,7 +116,7 @@ let submitQuiz = (req, res) => {
       let questions = success.Questions
 
       quiz_name = success.quizname;
-      for (let i = 0; i < req.body.data.length; i++) {
+      /* for (let i = 0; i < req.body.data.length; i++) {
         for (let j = 0; j < questions.length; j++) {
 
           if (req.body.data[i].questionUniqueId == questions[j]._id) {
@@ -124,7 +125,14 @@ let submitQuiz = (req, res) => {
             }
           }
         }
-      }
+      } */
+
+      req.body.data.forEach(element => {
+        console.log("testas", element)
+        if(element.selectedAnswer === element.correctAnswer){
+          correct_answer++;
+        }
+      })
 
       User.findOneAndUpdate({ _id: req.body.submittedBy }, {
         $push: {
@@ -133,17 +141,19 @@ let submitQuiz = (req, res) => {
             quizName: quiz_name,
             totalQuestions: req.body.data.length,
             correctAnswers: correct_answer,
-            completedAt:req.body.completedAt
+            completedAt:req.body.completedAt,
+            question: req.body.data,
           }
         }
       }, { new: false }, (error, success) => {
         if (error) {
+          console.log("error")
           res.status(400).json(error);
         }
         else {
           let result;
           success.quizzes.forEach(element => { 
-            if(req.body.quizId == element.quizId){
+            if(req.body.completedAt == element.completedAt){
               let value = element.correctAnswers*100/element.totalQuestions;
               let statusResult;
               if(value>=60){
@@ -154,7 +164,8 @@ let submitQuiz = (req, res) => {
               }
               result = `{"percentage": "${value}", 
               "quizname":"${element.quizName}", 
-              "statusResult": "${statusResult}"}`
+              "statusResult": "${statusResult}", 
+              "completeAt":"${element.completedAt}"}`
             }            
           });
           res.status(200).json(result);
