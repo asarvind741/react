@@ -37,7 +37,8 @@ class QuizUser extends React.Component {
       questioncheck: '',
       completed: false,
       quizNameReturned: '',
-      correctAnswer: ''
+      correctAnswer: '',
+      takenQuizId:''
     };
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -108,12 +109,15 @@ class QuizUser extends React.Component {
       this.setUserAnswer(event.currentTarget.value);
       this.props.completeQuiz(this.state.storeInfo, this.props.params.id, Date.now()).then(response => {
 
-        let data = JSON.parse(response.data);
+        let data = response.data;
+        console.log('data',data);
         this.setState({
           completed: true,
           quizNameReturned: data.quizname,
           marks: data.percentage,
-          statusResult: data.statusResult
+          statusResult: data.statusResult,
+          storeInfo: data.question,
+          takenQuizId: data._id
         })
 
         if (response.status == 200 && data.percentage >= 60) {
@@ -310,6 +314,7 @@ class QuizUser extends React.Component {
   }
 
   renderResult() {
+    console.log('this.state.storeInfo',this.state.storeInfo,'------',this.state.statusResult);
     return (
       <QuizResult
         result={this.state.storeInfo}

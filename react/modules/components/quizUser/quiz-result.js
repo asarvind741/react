@@ -36,6 +36,7 @@ class QuizResult extends React.Component {
 
   componentWillMount() {
     const data = this.props.result;
+    console.log('data',data);
     let correctQuestions = 0;
     let incorrectQuestions = 0;
     let correctPercent = 0;

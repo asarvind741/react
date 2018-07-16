@@ -40,5 +40,6 @@ module.exports =(app) =>{
     app.post('/api/quiz/submit-quiz',quizController.submitQuiz);
     app.get('/api/quiz/get-category', quizController.getCategory);
     app.post('/api/user/get-user-quizzes', userController.getUserQuizzes);
+    app.post('/api/quiz/get-taken-quiz',quizController.getQuizStats);
 
 }

@@ -6,7 +6,7 @@ import React from 'react';
 import { Bar } from 'react-chartjs';
 import './Quiz.css';
 import QuizResultDetails from './quiz-result-detail';
-
+import { getTakenQuiz } from '../../services/QuizService'
 class QuizResult extends React.Component {
   constructor(props) {
     super(props);
@@ -35,7 +35,15 @@ class QuizResult extends React.Component {
   }
 
   componentWillMount() {
-    const data = this.props.result;
+    let data;
+    getTakenQuiz()
+    .then((result) => {
+      data = result
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
     let correctQuestions = 0;
     let incorrectQuestions = 0;
     let correctPercent = 0;

@@ -35,8 +35,12 @@ const userQuizzes = {
   quizName:String,
   totalQuestions:Number,
   correctAnswers:Number,
+  statusResult:String,
+  percentage:Number,
   question: [questionSchema],
-  completedAt:String
+  completedAt:{
+      type:Date,
+}
 }
 const userSchema = new Schema({
     firstName: {

@@ -83,13 +83,12 @@ export function getAllQuizList() {
         data2.push(data1);
     });
 
-    console.log('dat1', data2);
 
     const requestOptions = {
         'data':data2,
         'quizId': id,
         'submittedBy':currentUserId,
-        'completedAt': moment(date).format('MMM/do/YYYY hh:mm:ss')
+        'completedAt': date
     };
 
     return dispatch => {
@@ -106,4 +105,15 @@ export function getUserQuiz(id) {
     return dispatch => {
         return axios.post('http://localhost:5000/api/user/get-user-quizzes', requestOptions);
     }
+}
+
+export function getTakenQuiz() {
+    const requestOptions = {
+        userId:'5b488773a50a7927ec2fd8fe',
+        takenQuizId:'5b4c5a42c9133a07209b3c11'
+    }
+    return dispatch => {
+        return axios.post('http://localhost:5000/api/quiz/get-taken-quiz', requestOptions);
+    }
+
 }

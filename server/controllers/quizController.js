@@ -133,7 +133,15 @@ let submitQuiz = (req, res) => {
           correct_answer++;
         }
       })
-
+      let value = correct_answer*100/req.body.data.length;
+      let statusResult;
+      if(value>=60){
+        statusResult = 'Pass'
+      }
+      else {
+        statusResult = 'Fail'
+      }
+      
       User.findOneAndUpdate({ _id: req.body.submittedBy }, {
         $push: {
           quizzes: {
@@ -141,33 +149,27 @@ let submitQuiz = (req, res) => {
             quizName: quiz_name,
             totalQuestions: req.body.data.length,
             correctAnswers: correct_answer,
-            completedAt:req.body.completedAt,
+            completedAt: req.body.completedAt,
             question: req.body.data,
+            statusResult: statusResult,
+            percentage: value
           }
         }
-      }, { new: false }, (error, success) => {
+      }, { new: true }, (error, success) => {
         if (error) {
           console.log("error")
           res.status(400).json(error);
         }
         else {
-          let result;
+          let result = {};
           success.quizzes.forEach(element => { 
-            if(req.body.completedAt == element.completedAt){
-              let value = element.correctAnswers*100/element.totalQuestions;
-              let statusResult;
-              if(value>=60){
-                statusResult = 'Pass'
-              }
-              else {
-                statusResult = 'Fail'
-              }
-              result = `{"percentage": "${value}", 
-              "quizname":"${element.quizName}", 
-              "statusResult": "${statusResult}", 
-              "completeAt":"${element.completedAt}"}`
+
+            if(req.body.completedAt == element.completedAt.getTime()) {
+              console.log('element.question',element.question)
+              result = element;
             }            
           });
+          console.log(result);
           res.status(200).json(result);
         }
       })
@@ -193,6 +195,32 @@ let getCategory = (req, res) => {
   })
 }
 
+let getQuizStats = (req,res) => {
+  User.findById(req.body.userId)
+  .then((success) => {
+    let result = {};
+    let count = 0;
+    success.quizzes.forEach(element => { 
+
+      if(req.body.takenQuizId == element._id) {
+        result = element;
+        count++
+      }            
+    });
+    console.log(result);
+    if(count == 1)
+    res.status(200).json(result);
+    else 
+    res.status(400).json();
+  })
+  .catch((error) => {
+    console.log("error",error)
+    res.status(400).json(error);
+  })
+}
+
+
+
 
 
 
@@ -207,5 +235,6 @@ module.exports = {
   getAllQuiz,
   submitQuiz,
   getCategory,
-  getQuizByMe
+  getQuizByMe,
+  getQuizStats
 }
