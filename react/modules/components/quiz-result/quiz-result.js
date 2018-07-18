@@ -6,6 +6,8 @@ import React from 'react';
 import { Bar } from 'react-chartjs';
 import './Quiz.css';
 import QuizResultDetails from './quiz-result-detail';
+import { connect } from 'react-redux';
+
 import { getTakenQuiz } from '../../services/QuizService'
 class QuizResult extends React.Component {
   constructor(props) {
@@ -29,64 +31,71 @@ class QuizResult extends React.Component {
       incorrectQuestions: 0,
       total: 0,
       buttonClicked: false,
-      storeInfo:[]
+      storeInfo:[],
+      renderPage:false
     }
-
-  }
+ 
+  } 
 
   componentWillMount() {
-    let data;
-    getTakenQuiz()
-    .then((result) => {
-      data = result
-      console.log(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
     let correctQuestions = 0;
     let incorrectQuestions = 0;
     let correctPercent = 0;
     let inCorrectPercent = 0;
     let counter = 0;
-    this.setState({
-      storeInfo: data
-    });
-    data.forEach(item => {
-      counter++;
-      if (item.selectedAnswer == item.correctAnswer) {
-        correctQuestions = correctQuestions + 1;
+    let data;
+    let maindata;
+    let getTakenData = {};
+    if(localStorage.getItem('guestUser'))
+    getTakenData.userId  = localStorage.getItem('guestUser');
+    else
+    getTakenData.userId = JSON.parse(localStorage.getItem('currentUserInfo'))._id;
+    getTakenData.takenQuizId = this.props.params.id;
+    this.props.getTakenQuiz(getTakenData)
+    .then((result) => {
+      data = result.data.question
+      this.setState({
+        storeInfo: data
+      });
+      data.forEach(item => {
+        counter++;
+        if (item.selectedAnswer == item.correctAnswer) {
+          correctQuestions = correctQuestions + 1;
+        }
+        else {
+          incorrectQuestions = incorrectQuestions + 1;
+        }
+      })
+      correctPercent = correctQuestions * 100 / counter;
+      inCorrectPercent = incorrectQuestions * 100 / counter;
+  
+       maindata = {
+        labels: ["Correct%", 'Incorrect%'],
+        datasets: [{
+          label: "My First dataset",
+          fillColor: [
+            'rgba(255,0,255, 1)',
+            'rgba(255,0,0, 1)'
+          ],
+          strokeColor: [
+            'rgba(255,0,255, 1)',
+            'rgba(255,0,0, 1)'
+          ],
+          borderWidth: 1,
+          data: [correctPercent, inCorrectPercent],
+        }]
       }
-      else {
-        incorrectQuestions = incorrectQuestions + 1;
-      }
+  
+      this.setState({
+        data: maindata,
+        correctQuestions: correctQuestions,
+        incorrectQuestions: incorrectQuestions,
+        total: counter,
+        renderPage: true
+      })
     })
-    correctPercent = correctQuestions * 100 / counter;
-    inCorrectPercent = incorrectQuestions * 100 / counter;
 
-    let maindata = {
-      labels: ["Correct%", 'Incorrect%'],
-      datasets: [{
-        label: "My First dataset",
-        fillColor: [
-          'rgba(255,0,255, 1)',
-          'rgba(255,0,0, 1)'
-        ],
-        strokeColor: [
-          'rgba(255,0,255, 1)',
-          'rgba(255,0,0, 1)'
-        ],
-        borderWidth: 1,
-        data: [correctPercent, inCorrectPercent],
-      }]
-    }
 
-    this.setState({
-      data: maindata,
-      correctQuestions: correctQuestions,
-      incorrectQuestions: incorrectQuestions,
-      total: counter
-    })
 
 
   }
@@ -100,7 +109,10 @@ class QuizResult extends React.Component {
 
 
   render() {
-
+    if(!this.state.renderPage) {
+      return(<p>Waiting....</p>)
+    }
+    else {
     if (this.state.buttonClicked) {
       return(
         <QuizResultDetails
@@ -141,9 +153,10 @@ class QuizResult extends React.Component {
     }
   }
 }
+}
 
 QuizResult.contextTypes = {
   router: React.PropTypes.object.isRequired
 }
 
-export default QuizResult;
+export default connect(null, {getTakenQuiz})(QuizResult);

@@ -75,7 +75,8 @@ class QuizUser extends React.Component {
       .catch((failed) => {
       })
     const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (!isLoggedIn)
+    console.log('isLoggedIn',(!isLoggedIn) && localStorage.getItem('guestUser') == null)
+    if ((!isLoggedIn) && localStorage.getItem('guestUser') == null)
       this.context.router.push('/login');
     else {
 
@@ -119,12 +120,14 @@ class QuizUser extends React.Component {
           storeInfo: data.question,
           takenQuizId: data._id
         })
+        this.context.router.push(`/get-taken-quiz/${data._id}`)
 
         if (response.status == 200 && data.percentage >= 60) {
           this.props.addFlashMessage({
             type: 'success',
             text: "You have passed Quiz successfully."
           })
+
         }
         else if (response.status == 200 && data.percentage < 60) {
           this.props.addFlashMessage({
@@ -299,6 +302,7 @@ class QuizUser extends React.Component {
 
   renderQuiz() {
     return (
+      <div className="preventcopy">
       <Quiz
         answer={this.state.answer}
         answerOptions={this.state.answerOptions}
@@ -310,6 +314,7 @@ class QuizUser extends React.Component {
         onAnswerSelected={this.handleAnswerSelected}
         questionUniqueId={this.state.questionUniqueId}
       />
+      </div>
     );
   }
 

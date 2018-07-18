@@ -14,6 +14,7 @@ class ShowAvailableQuiz extends React.Component {
 
     this.selectedQuiz = this.selectedQuiz.bind(this);
   }
+  copyToClip
 
   componentDidMount() {
     this.props.getAllQuizList().then(response => {
@@ -26,12 +27,20 @@ class ShowAvailableQuiz extends React.Component {
     })
   }
 
+  copyToClip(text) {
+    console.log(text);
+    document.getElementById('copy').select()
+    document.execCommand("copy");
+  
+
+  }
+
   selectedQuiz(id) {
     // event.preventDefault();
     /*   this.props.getSelectedQuiz(id).then((success) => {
         this.setState({
           quizData:success.data
-        })
+        }) 
   
       }) */
     this.context.router.push(`/get-quiz/${id}`)
@@ -39,6 +48,7 @@ class ShowAvailableQuiz extends React.Component {
 
   render() {
     const quizName = this.state.quizList.map(quizName => {
+      let x = `http://localhost:8080/quiz-now/${quizName._id}`
      /*  return (
         <div key={quizName._id}>
           <div className='quizlist'>
@@ -53,6 +63,7 @@ class ShowAvailableQuiz extends React.Component {
           <h5 className="card-title">{quizName.quizname}</h5>
           <p className="card-text">This Quiz contains a total of {quizName.Questions.length } questions with multiple choice options</p>
           <button className="btn btn-primary" onClick={() => { this.selectedQuiz(quizName._id) }}>Start Quiz</button>
+          <button className="btn btn-primary" onClick={() => { this.copyToClip(x)}} id="copy">Copy URL</button>
         </div>
       </div>
       )

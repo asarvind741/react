@@ -18,17 +18,18 @@ class QuizResultDetails extends React.Component {
 
 
     render() {
+        console.log(this.props.storeInfo)
 
         const itemShow = this.props.storeInfo.map((item, i) => {
-
+            console.log(item)
             return (
                 <div  className = "form-group">
-                    <label>Question {i + 1}:</label>
-                    <input type="text" className = "form-control-plaintext" value={item.question.question} readOnly />
-                    <input type = "text" className = {`input-button-result ${ this.applyClass(item.question.option1, item.selectedAnswer, item.question.correctAnswer)}`} value = { item.question.option1} />
-                    <input type = "text" className = {`input-button-result ${ this.applyClass(item.question.option2, item.selectedAnswer, item.question.correctAnswer)}`} value = { item.question.option2} />
-                    <input type = "text" className = {`input-button-result ${ this.applyClass(item.question.option3, item.selectedAnswer, item.question.correctAnswer)}`} value = { item.question.option3} />
-                    <input type = "text" className = {`input-button-result ${ this.applyClass(item.question.option4, item.selectedAnswer, item.question.correctAnswer)}`} value = { item.question.option4} />
+                    <label className="label">Question {i + 1}:</label>
+                    <input type="text" className = "form-control-plaintext" value={item.question} readOnly />
+                    <input type = "text" className = {`input-button-result ${ this.applyClass(item.option1, item.selectedAnswer, item.correctAnswer)}`} value = { item.option1} />
+                    <input type = "text" className = {`input-button-result ${ this.applyClass(item.option2, item.selectedAnswer, item.correctAnswer)}`} value = { item.option2} />
+                    <input type = "text" className = {`input-button-result ${ this.applyClass(item.option3, item.selectedAnswer, item.correctAnswer)}`} value = { item.option3} />
+                    <input type = "text" className = {`input-button-result ${ this.applyClass(item.option4, item.selectedAnswer, item.correctAnswer)}`} value = { item.option4} />
                 </div>
             )
 
@@ -36,7 +37,7 @@ class QuizResultDetails extends React.Component {
         return (
             <div>
                 <h1>Here we wil display records...</h1>
-                <form>
+                <form className="form">
                     { itemShow }
                 </form>
             </div>

@@ -8,6 +8,7 @@ class Logout extends React.Component{
         localStorage.removeItem('currentUserInfo');
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('token');
+        localStorage.removeItem('guestUser');
         this.context.router.push('/login');
     }
 

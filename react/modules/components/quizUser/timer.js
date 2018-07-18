@@ -32,7 +32,7 @@ class Timer extends React.Component {
         };
         return(
         <Countdown
-            date={Date.now() + 5000}
+            date={Date.now() + 100000}
             onComplete = { this.timeUpFunction}
             renderer={this.renderer}
         />

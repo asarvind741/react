@@ -68,9 +68,13 @@ export function getAllQuizList() {
 
  export function completeQuiz(data, id, date) {
      console.log('data is--------', data);
-    let currentUserId = JSON.parse(localStorage.getItem('currentUserInfo'))._id;
-    let data2 = [];
-    data.forEach(element => {
+     let currentUserId ;
+     if(localStorage.getItem('guestUser'))
+     currentUserId = localStorage.getItem('guestUser');
+     else 
+     currentUserId = JSON.parse(localStorage.getItem('currentUserInfo'))._id;
+     let data2 = [];
+     data.forEach(element => {
         let data1 = {};
         console.log("element is", element)
         data1.question = element.question.question;
@@ -107,10 +111,10 @@ export function getUserQuiz(id) {
     }
 }
 
-export function getTakenQuiz() {
+export function getTakenQuiz(data) {
     const requestOptions = {
-        userId:'5b488773a50a7927ec2fd8fe',
-        takenQuizId:'5b4c5a42c9133a07209b3c11'
+        userId: data.userId,
+        takenQuizId: data.takenQuizId
     }
     return dispatch => {
         return axios.post('http://localhost:5000/api/quiz/get-taken-quiz', requestOptions);
