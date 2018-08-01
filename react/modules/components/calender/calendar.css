@@ -14,3 +14,15 @@
     background-color: lightsteelblue;
     border-radius: 30px;
 }
+
+.rbc-overlay {
+    position: absolute;
+    z-index: 5;
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+  }
+  .rbc-overlay > * + * {
+    margin-top: 1px;
+  }

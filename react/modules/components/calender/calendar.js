@@ -24,7 +24,7 @@ class MainCalendar extends React.Component {
         this.setState({
             showPopup: true
         }, () => {
-            console.log(this.state.showPopup)
+            <Popup />
         })
     }
 
@@ -36,23 +36,41 @@ class MainCalendar extends React.Component {
             {
               'title': 'My 4',
               'allDay': false,
-              'start': new Date(2018, 7, 8, 10, 0), // 10.00 AM
-              'end': new Date(2018, 7, 8, 14, 0), // 2.00 PM 
+              'start': new Date(2018, 7, 9, 10, 0), // 10.00 AM
+              'end': new Date(2018, 7, 9, 14, 0), // 2.00 PM 
             },
             {
                 'title': 'My 3',
                 'allDay': false,
-                'start': new Date(2018, 7, 8, 10, 0), // 10.00 AM
-                'end': new Date(2018, 7, 8, 14, 0), // 2.00 PM 
+                'start': new Date(2018, 7, 9, 10, 0), // 10.00 AM
+                'end': new Date(2018, 7, 9, 14, 0), // 2.00 PM 
               },
               {
                 'title': 'My 2',
+                'allDay': false,
+                'start': new Date(2018, 7, 9, 10, 0), // 10.00 AM
+                'end': new Date(2018, 7, 9, 14, 0), // 2.00 PM 
+              },
+              {
+                'title': 'My 1',
+                'allDay': false,
+                'start': new Date(2018, 7, 9, 10, 0), // 10.00 AM
+                'end': new Date(2018, 7, 9, 14, 0), // 2.00 PM 
+              },
+              {
+                'title': 'My event',
+                'allDay': false,
+                'start': new Date(2018, 7, 9, 10, 0), // 10.00 AM
+                'end': new Date(2018, 7, 9, 14, 0), // 2.00 PM 
+              },
+              {
+                'title': 'My event',
                 'allDay': false,
                 'start': new Date(2018, 7, 8, 10, 0), // 10.00 AM
                 'end': new Date(2018, 7, 8, 14, 0), // 2.00 PM 
               },
               {
-                'title': 'My 1',
+                'title': 'My event',
                 'allDay': false,
                 'start': new Date(2018, 7, 8, 10, 0), // 10.00 AM
                 'end': new Date(2018, 7, 8, 14, 0), // 2.00 PM 
