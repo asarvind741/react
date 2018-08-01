@@ -5,14 +5,14 @@ const jwt = require('jsonwebtoken');
 
 
 let signupUser = (req, res) => {
-    if (!!req.body.firstName && (!!req.body.lastName) && (!!req.body.email) && (!!req.body.password)) {
+    if ((!!req.body.email) && (!!req.body.password)) {
 
         User.findOne({ email: req.body.email }, (err, user) => {
             if (err) {
                 res.status(500).json(err);
             }
             else if (!!user) {
-                res.json({ Message: 'User with this e-mail already exists.' })
+                res.status(201).json({ Message: 'User with this e-mail already exists.' ,data:user})
             }
             else {
                 User.create({
@@ -24,6 +24,7 @@ let signupUser = (req, res) => {
                     company: req.body.company
                 }, (err, user) => {
                     if (err) {
+                        console.log(err)
                         res.status(500).json(err);
                     }
                     else {
@@ -129,12 +130,14 @@ let deleteUser = (req, res) => {
 }
 
 let getUserQuizzes = (req, res) => {
+    console.log(req.body.id)
     if (!!req.body.id) {
         User.find({ _id: req.body.id }, (err, user) => {
             if (err) {
                 res.status(401).json(err);
             }
-            else if (!!user) {
+            else if (!!user && user.length>0) {
+                console.log(user);
                 let quizzes = user[0].quizzes;
                 res.status(200).json(quizzes);
             }

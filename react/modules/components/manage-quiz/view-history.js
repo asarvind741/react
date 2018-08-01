@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAllQuizList } from '../../services/QuizService';
-
+import { getAllQuizList,deleteQuiz } from '../../services/QuizService';
+import {Button} from 'react-bootstrap'
 import moment from 'moment';
-
+import './quiz.css';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 class ViewHistory extends React.Component {
 
     constructor(props) {
@@ -11,11 +13,49 @@ class ViewHistory extends React.Component {
         this.state = {
             quizzes: [],
             status: '',
-            marks: 0
+            marks: 0,
+            reRender:true
         }
+        this.handleDelete = this.handleDelete.bind(this);
+        this.submit = this.submit.bind(this);
+    }
+
+    submit(id)  {
+        console.log(id);
+        confirmAlert({
+          title: 'Confirm to submit',
+          message: 'Are you sure to delete this Quiz.',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => this.handleDelete(id)
+            },
+            {
+              label: 'No',
+              onClick: () => console.log("Cancelled")
+            }
+          ]
+        })
+      };
+    handleEdit(id) {
+        console.log(id);
+        this.context.router.push(`/edit-quiz/${id}`)
+
+    }
+
+    handleDelete(id) {
+        console.log(id);
+        this.props.deleteQuiz(id).then(success => {
+            console.log(success);
+            console.log(this.setState)
+            this.getQuiz();
+        })
     }
 
     componentWillMount() {
+        this.getQuiz()
+    }
+    getQuiz() {
         this.props.getAllQuizList().then(response => {
             if (response.status == 200) {
                 this.setState({
@@ -40,12 +80,17 @@ class ViewHistory extends React.Component {
                     <td>{dateOfCreation}</td>
                     <td>{item.createdByName}</td>
                     <td>{dateOfUpdation}</td>
+                    <td><Button className="btn" onClick={()=> this.handleEdit(item._id)}>Edit</Button></td>
+                    <td><Button className="btn" onClick={()=> this.submit(item._id)}>Delete</Button></td>
+
+
                 </tr>
             )
         })
 
         if (!!renderHistory) {
             return (
+                
                 <table className="table table-hover">
                     <thead>
                         <tr>
@@ -55,6 +100,7 @@ class ViewHistory extends React.Component {
                             <th scope="col">Created On</th>
                             <th scope="col">Created By</th>
                             <th scope="col">Updated On</th>
+                            <th scope="col" colSpan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,4 +119,9 @@ class ViewHistory extends React.Component {
     }
 }
 
-export default connect(null, { getAllQuizList })(ViewHistory);
+ViewHistory.contextTypes = {
+    router: React.PropTypes.object.isRequired
+
+  }
+
+export default connect(null, { getAllQuizList,deleteQuiz })(ViewHistory);

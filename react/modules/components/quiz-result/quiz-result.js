@@ -7,6 +7,7 @@ import { Bar } from 'react-chartjs';
 import './Quiz.css';
 import QuizResultDetails from './quiz-result-detail';
 import { connect } from 'react-redux';
+import DonutChart from 'react-donut-chart';
 
 import { getTakenQuiz } from '../../services/QuizService'
 class QuizResult extends React.Component {
@@ -32,7 +33,8 @@ class QuizResult extends React.Component {
       total: 0,
       buttonClicked: false,
       storeInfo:[],
-      renderPage:false
+      renderPage:false,
+      tempData:''
     }
  
   } 
@@ -53,6 +55,7 @@ class QuizResult extends React.Component {
     getTakenData.takenQuizId = this.props.params.id;
     this.props.getTakenQuiz(getTakenData)
     .then((result) => {
+      console.log(result)
       data = result.data.question
       this.setState({
         storeInfo: data
@@ -85,13 +88,24 @@ class QuizResult extends React.Component {
           data: [correctPercent, inCorrectPercent],
         }]
       }
+
+    let tempData =  [{
+        label: 'Correct %',
+        value: correctPercent
+    },
+    {
+        label: 'Incorrect %',
+        value: inCorrectPercent,
+    }]
   
       this.setState({
         data: maindata,
+        tempData: tempData,
         correctQuestions: correctQuestions,
         incorrectQuestions: incorrectQuestions,
         total: counter,
-        renderPage: true
+        renderPage: true,
+        statusResult:result.data.statusResult
       })
     })
 
@@ -123,7 +137,9 @@ class QuizResult extends React.Component {
       return (
         <div>
           <div className="quiz-result border-for-left-div">
-            <Bar data={this.state.data} options={this.state.options} width='400' height='400' />
+            {/* <Bar data={this.state.data} options={this.state.options} width='400' height='400' /> */}
+            <DonutChart
+    data={this.state.tempData}  width='500' height='500' colors={['#28a745','#f44336']} />
           </div>
 
           <div className="quiz-result">
@@ -138,11 +154,11 @@ class QuizResult extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                <tr className={`table-for-quiz-result ${this.props.statusResult === 'Fail' ? 'bg-danger' : 'bg-success'}`}>
+                <tr className={`table-for-quiz-result ${this.state.statusResult === 'Fail' ? 'bg-danger' : 'bg-success'}`}>
                   <td>{this.state.correctQuestions}</td>
                   <td>{this.state.incorrectQuestions}</td>
                   <td>{this.state.total}</td>
-                  <td>{this.props.statusResult}</td>
+                  <td>{this.state.statusResult}</td>
                 </tr>
               </tbody>
             </table>

@@ -73,4 +73,7 @@ ul.answerOptions  li label{
 .btn.btn-primary {
   margin: 10px;
 }
-
+.copy {
+  position: absolute;
+  left: -9999px;
+}

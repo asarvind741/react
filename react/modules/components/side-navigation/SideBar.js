@@ -2,6 +2,7 @@ import React from 'react';
 import './SideBar.css';
 import SideNaviationItem from './side-navigation-item';
 import axios from 'axios';
+import {Link} from 'react-router';
 
 class Sidebar extends React.Component {
 
@@ -53,27 +54,29 @@ class Sidebar extends React.Component {
         {(isLoggedIn)?
         <div>
           <div>
-         <a href="my-quiz" onClick = {this.tabChange1.bind(this)}>My Quizzes
+            
+         <Link to="/my-quiz" onClick = {this.tabChange1.bind(this)}>Quiz History
          {(this.state.tab1 == 1)?
          <span>
            { sideNavItem }
          </span>
         :null
-       }</a>
+       }</Link>
        </div>
        {(userInfo && userInfo.role == 'Admin' || userInfo.role == 'admin')?
        <div>
-<a href="#" onClick = {this.tabChange.bind(this)}>Manage Quiz
+<Link to="#" onClick = {this.tabChange.bind(this)}>Manage Quiz
         {(this.state.tab2 == 1)?
          <span>
-         <a href ="/create-quiz">New Quiz</a>
-         <a href ="/manage-quiz">View History</a>
+         <Link to ="/create-quiz">New Quiz</Link>
+         <Link to ="/manage-quiz">View History</Link>
          </span>
         :null
        }
 
-         </a>
-         <a href="/users">Manage User</a>
+         </Link>
+         <Link to="/users">Manage User</Link>
+         <Link to="/calendar">Calendar</Link>
 
          </div>
          :null

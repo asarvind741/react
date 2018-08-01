@@ -19,33 +19,37 @@ import TakeQuiz from './components/takeQuiz/takeQuiz';
 import QuizUser from './components/quizUser/quizUser';
 // import withStyles from './components/users/withStyles';
 import MainQuiz from './components/quiz-main/main-quiz';
+import MainCalender from './components/calendar/main';
 import MyQuiz from './components/my-quizes/my-quiz';
 import ManageQuiz from './components/manage-quiz/manage-quiz';
 import QuizResult from './components/quiz-result/quiz-result';
 import GuestUserQuiz from './components/guestUserQuiz/guestUserQuiz';
+import EditQuiz from './components/editQuiz/editQuiz'
 
 export default (
   <Route path= "/" component = { App }>
     <IndexRoute component = { LoginPage } />
-    <Route path = "signup" component = { SignupPage } />
-    <Route path = "login" component = { LoginPage} />
-    <Route path = "forget-password" component = { ForgotPassword } />
-    <Route path = "users" component = { Users } />
-    <Route path = "company" component = {Company} />
-    <Route path = 'settings' component = {Settings} />
-    <Route path = 'logout' component = {Logout} />
-    <Route path = 'quiz' component = {Main} />
-    <Route path = 'javascript-quiz' component = { MainJavascript } />
-    <Route path = 'quiz-settings' component = { QuizSettings } />
-    <Route path = 'create-quiz' component = { MainQuiz } />
-    <Route path ='listQuiz' component = {ListQuiz} />
-    <Route path ='take-quiz' component = {TakeQuiz} />
+    <Route path = "/signup" component = { SignupPage } />
+    <Route path = "/login" component = { LoginPage} />
+    <Route path = "/forget-password" component = { ForgotPassword } />
+    <Route path = "/users" component = { Users } />
+    <Route path = "/company" component = {Company} />
+    <Route path = '/settings' component = {Settings} />
+    <Route path = '/logout' component = {Logout} />
+    <Route path = '/quiz' component = {Main} />
+    <Route path = '/javascript-quiz' component = { MainJavascript } />
+    <Route path = '/quiz-settings' component = { QuizSettings } />
+    <Route path = '/create-quiz' component = { MainQuiz } />
+    <Route path ='/listQuiz' component = {ListQuiz} />
+    <Route path ='/take-quiz' component = {TakeQuiz} />
     {/* <Route path ='main-quiz' component = {MainQuiz} /> */}
-    <Route path = 'get-quiz/:id' component = {QuizUser} />
-    <Route path = "my-quiz" component = { MyQuiz } />
-    <Route path = "manage-quiz" component = { ManageQuiz } />
-    <Route path = "get-taken-quiz/:id" component = {QuizResult} />
-    <Route path = "quiz-now/:id" component = { GuestUserQuiz} />
+    <Route path = '/get-quiz/:id' component = {QuizUser} />
+    <Route path = "/my-quiz" component = { MyQuiz } />
+    <Route path = "/manage-quiz" component = { ManageQuiz } />
+    <Route path = "/get-taken-quiz/:id" component = {QuizResult} />
+    <Route path = "/quiz-now/:id" component = { GuestUserQuiz} />
+    <Route path = "/edit-quiz/:id" component = { EditQuiz } />
+    <Route path = "/calendar" component = { MainCalender } />
     {/* <Route path = "test" component = { withStyles} /> */}
   </Route>
 )

@@ -27,9 +27,9 @@ class ShowAvailableQuiz extends React.Component {
     })
   }
 
-  copyToClip(text) {
-    console.log(text);
-    document.getElementById('copy').select()
+  copyToClip(x) {
+    var copyText = document.getElementById(x);
+    copyText.select();
     document.execCommand("copy");
   
 
@@ -43,7 +43,7 @@ class ShowAvailableQuiz extends React.Component {
         }) 
   
       }) */
-    this.context.router.push(`/get-quiz/${id}`)
+    this.context.router.push(`get-quiz/${id}`)
   }
 
   render() {
@@ -63,7 +63,9 @@ class ShowAvailableQuiz extends React.Component {
           <h5 className="card-title">{quizName.quizname}</h5>
           <p className="card-text">This Quiz contains a total of {quizName.Questions.length } questions with multiple choice options</p>
           <button className="btn btn-primary" onClick={() => { this.selectedQuiz(quizName._id) }}>Start Quiz</button>
-          <button className="btn btn-primary" onClick={() => { this.copyToClip(x)}} id="copy">Copy URL</button>
+
+          <input type="text" value={x} id={x} className="copy" />
+          <button className="btn btn-primary" onClick={() => { this.copyToClip(x)}} >Copy URL</button>
         </div>
       </div>
       )

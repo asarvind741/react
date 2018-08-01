@@ -41,5 +41,8 @@ module.exports =(app) =>{
     app.get('/api/quiz/get-category', quizController.getCategory);
     app.post('/api/user/get-user-quizzes', userController.getUserQuizzes);
     app.post('/api/quiz/get-taken-quiz',quizController.getQuizStats);
+    app.get('/api/quiz/getAllQuizzes',quizController.getAllQuizzes);
+    app.post('/api/quiz/deleteQuiz',quizController.deleteQuiz);
+    app.post('/api/quiz/updateQuiz',quizController.updateQuiz);
 
 }

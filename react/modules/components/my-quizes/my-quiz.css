@@ -5,3 +5,12 @@
 .table td, .table th {
     border-top: 0px;
 }
+
+.pageTab {
+    background-color:#5bc0de
+}
+.filter {
+    position: relative;
+    float: right;
+    margin-top: 10px;
+}

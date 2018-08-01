@@ -2,14 +2,14 @@ import React from 'react';
 import './Quiz.css'
 
 
-function Question(props){
-    return(
-        <h6 className = "question">{props.content} </h6>
+function Question(props) {
+    return (
+        <h6 className="question"> <strong >{props.counter}.</strong>{props.content} </h6>
     )
 }
 
 Question.propTypes = {
-    content:React.PropTypes.string.isRequired
+    content: React.PropTypes.string.isRequired
 }
 
 export default Question;

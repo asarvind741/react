@@ -111,6 +111,13 @@ export function getUserQuiz(id) {
     }
 }
 
+export function getAllQuizzes() {
+    
+    return dispatch => {
+        return axios.get('http://localhost:5000/api/quiz/getAllQuizzes');
+    }
+}
+
 export function getTakenQuiz(data) {
     const requestOptions = {
         userId: data.userId,
@@ -120,4 +127,20 @@ export function getTakenQuiz(data) {
         return axios.post('http://localhost:5000/api/quiz/get-taken-quiz', requestOptions);
     }
 
+}
+
+export function deleteQuiz(id) {
+    const requestOptions = {
+        id: id
+    }
+    return dispatch => {
+        return axios.post('http://localhost:5000/api/quiz/deleteQuiz', requestOptions);
+    } 
+}
+
+export function updateQuiz(data) {
+    console.log(data);
+    return dispatch => {
+        return axios.post('http://localhost:5000/api/quiz/updateQuiz', data);
+    } 
 }

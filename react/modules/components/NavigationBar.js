@@ -17,7 +17,7 @@ class NavigationBar extends Component {
                         <ul className="nav navbar-nav">
                         {(isLoggedIn)?
                          <li className="dropdown">
-                         <Link to="#" className="dropdown-toggle navbar-dropdown" data-toggle="dropdown" role="button"  aria-expanded="false">DashBoard <span className="caret"></span></Link>
+                         {/* <Link to="#" className="dropdown-toggle navbar-dropdown" data-toggle="dropdown" role="button"  aria-expanded="false">DashBoard <span className="caret"></span></Link> */}
                          <ul className="dropdown-menu">
                            {(userInfo && userInfo.role == 'Admin')?
                            <span>

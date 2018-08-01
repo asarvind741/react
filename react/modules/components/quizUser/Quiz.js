@@ -11,11 +11,18 @@ import './Quiz.css'
 function Quiz(props) {
 
   function Button(i) {
-    return (
-    <button key = {i} onClick={() => handleClick(i, props.answer, props.questionUniqueId)} className = "question-button">{i}</button>
-  );
-  
-}
+
+    if (props.storeInfo.length > 0)
+      return (
+        <button key={i} onClick={() => handleClick(i, props.answer, props.questionUniqueId)} className={(props.storeInfo[i - 1].selectedAnswer != "" ? "question-button-given " : "question-button")}>{i}</button>
+      );
+    else
+      return (
+        <button key={i} onClick={() => handleClick(i, props.answer, props.questionUniqueId)} className={"question-button"}>{i}</button>
+      );
+
+
+  }
 
   function handleClick(questionId, answer, questionUniqueId) {
     const id = questionId - 1;
@@ -30,14 +37,14 @@ function Quiz(props) {
         answer={props.answer}
         questionId={props.questionId}
         onAnswerSelected={props.onAnswerSelected}
-        questionUniqueId = { props.questionUniqueId}
+        questionUniqueId={props.questionUniqueId}
       />
     );
   }
 
   function createButtons() {
     let buttons = [];
-    for(let i=1;i<= props.questionTotal;i++) {
+    for (let i = 1; i <= props.questionTotal; i++) {
       buttons.push(Button(i))
     }
     return buttons;
@@ -48,22 +55,23 @@ function Quiz(props) {
 
     <div>
       <div className="button">
-      <h4>Select Question:</h4>
-          {createButtons()}
+        <h4>Select Question:</h4>
+        {createButtons()}
       </div>
-      <Timer 
-      onAnswerSelected={props.onAnswerSelected}/>
+      <Timer
+        onAnswerSelected={props.onAnswerSelected} />
       <QuestionCounter
         counter={props.counter}
         total={props.questionTotal} />
-      <Question content={props.question} />
-      <ul className="answerOptions"> <span className = "select-answer">Please select correct answer:</span>
+      <Question content={props.question}
+        counter={props.counter} />
+      <ul className="answerOptions"> <span className="select-answer">Please select correct answer:</span>
         {props.answerOptions.map(renderAnswerOptions)}
       </ul>
-      {(props.counter == 0)?null:<button className = "submit-button" onClick = {props.onAnswerSelected} value = "previous">Previous</button>}
+      {(props.counter == 0) ? null : <button className="submit-button" onClick={props.onAnswerSelected} value="previous">Previous</button>}
 
-      {(props.questionTotal-1 <= props.counter)?<button className = "submit-button" value = "submit" onClick = {props.onAnswerSelected}>Submit</button>:
-      <button className = "submit-button" onClick = {props.onAnswerSelected} value = "next">Next</button>}
+      {(props.questionTotal - 1 <= props.counter) ? <button className="submit-button" value="submit" onClick={props.onAnswerSelected}>Submit</button> :
+        <button className="submit-button" onClick={props.onAnswerSelected} value="next">Next</button>}
     </div>
   )
 }

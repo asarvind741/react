@@ -1,8 +1,17 @@
+// import error from 'material-ui/svg-icons/alert/error';
+
+
 
 const Quiz = require('../models/quiz');
 const quizQuestion = require('../models/question')
 const User = require('../models/user');
 const Result = require('../models/result');
+var Mailgun = require('mailgun-js');
+
+var api_key = '8889127d-84a7a4c8';
+var domain = 'sandbox5e42adffd0c441b398800e292f657c77.mailgun.org';
+var from_who = 'asarvind741@email.com';
+var mailgun = new Mailgun({apiKey: api_key, domain: domain,proxy:'http:172.16.1.127:5000'});
 
 let getQuiz = (req, res) => {
   Quiz.findById({_id:req.params.id})
@@ -14,7 +23,7 @@ let getQuiz = (req, res) => {
 
 let getAllQuiz = (req, res) => {
   // if(req.header.token){
-  Quiz.find({}, (err, quizes) => {
+  Quiz.find({deleted:false}, (err, quizes) => {
 
     if (!!quizes) {
 
@@ -44,7 +53,7 @@ let getAllQuiz = (req, res) => {
 
 
 let getQuizByCategory = (req, res) => {
-  Quiz.find({ categoryname: req.body.categoryName }, { quizname: 1 }, (err, quizes) => {
+  Quiz.find({ categoryname: req.body.categoryName,deleted:false }, { quizname: 1 }, (err, quizes) => {
 
     if (err)
       res.json(err)
@@ -56,7 +65,7 @@ let getQuizByCategory = (req, res) => {
 
 let getQuizByMe = (req, res) => {
   if (!!req.body.id) {
-    Quiz.find({ createdBy: req.boy.id }, (err, quizes) => {
+    Quiz.find({ createdBy: req.boy.id,deleted:false }, (err, quizes) => {
       if (err) {
         res.status(401).json({ Error: "Error occurred" });
       }
@@ -167,6 +176,26 @@ let submitQuiz = (req, res) => {
             if(req.body.completedAt == element.completedAt.getTime()) {
               console.log('element.question',element.question)
               result = element;
+              var data = {
+                //Specify email data
+                  from: from_who,
+                //The email to contact
+                  to: success.email,
+                //Subject and text data  
+                  subject: 'Test Result',
+                  html: `Hello, You have scored ${element.percentage} in ${element.quizName}`
+                }
+                mailgun.messages().send(data, function (err, body) {
+                  console.log("mailgun ==>",err,body)
+                  if (err) {
+                      console.log("got an error: ", err);
+                  }
+                  else {
+                      console.log(body);
+                  }
+              });
+            
+
             }            
           });
           console.log(result);
@@ -195,6 +224,25 @@ let getCategory = (req, res) => {
   })
 }
 
+let getAllQuizzes = (req,res) => {
+  User.aggregate([
+    {
+      $unwind:'$quizzes'
+    },
+    {
+      $sort:{'quizzes.completedAt': -1}
+    }
+  ],(error,success) => {
+    console.log("=========>",error,success)
+    if(error)
+    res.status(500).json(error)
+    else
+    res.status(200).json(success);
+  })
+}
+
+
+
 let getQuizStats = (req,res) => {
   User.findById(req.body.userId)
   .then((success) => {
@@ -219,6 +267,27 @@ let getQuizStats = (req,res) => {
   })
 }
 
+let deleteQuiz = (req,res) => {
+  Quiz.findOneAndUpdate({_id:req.body.id},{$set:{deleted:true}},(error,success) => {
+    console.log(error,success)
+    if(error)
+    res.status(500).json(error);
+    else
+    res.status(200).json(success);
+  })
+}
+
+let updateQuiz = (req,res) => {
+  console.log(req.body);
+  Quiz.findByIdAndUpdate(req.body._id,{$set:req.body},{new:true},(error,success) => {
+    console.log(error,success)
+    if(error)
+    res.status(500).json(error);
+    else
+    res.status(200).json(success);
+  })
+}
+
 
 
 
@@ -236,5 +305,8 @@ module.exports = {
   submitQuiz,
   getCategory,
   getQuizByMe,
-  getQuizStats
+  getQuizStats,
+  getAllQuizzes,
+  deleteQuiz,
+  updateQuiz
 }

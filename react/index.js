@@ -24,12 +24,14 @@ import { Router, browserHistory } from 'react-router';
 
 import routes from './modules/routes';
 import rootReducer from './modules/components/rootReducers';
-
+import Modal from 'react-modal'
+ 
 import thunk from 'redux-thunk';
 import {createStore, applyMiddleware, compose  } from 'redux';
 import ReduxPromise from 'redux-promise';
 
 import { configureFakeBackend } from './modules/components/helpers/FakeBackend';
+Modal.setAppElement('#app')
 
 configureFakeBackend();
 

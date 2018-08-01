@@ -31,6 +31,10 @@ const quizSchema = new Schema({
     createdByName: {
         type: String,
         trim: true
+    },
+    deleted:{
+        type:Boolean,
+        default:false
     }
 
 }

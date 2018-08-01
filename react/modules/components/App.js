@@ -18,16 +18,44 @@ import './side-navigation/SideBar.css'
 injectTapEventPlugin();
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: false
+    }
+  }
+
+  //  shouldComponentUpdate() {
+  //     if (localStorage.getItem('isLoggedIn')) {
+  //       return true;
+  //     }
+  //     return true;
+  //   }
+
+  //   componentDidUpdate(){
+  //     this.setState({
+  //       loggedIn: true
+  //     })
+  //   } 
+
+
   render() {
     return (
       <div className="container">
-        <NavigationBar />
-        <Sidebar />
+        {(localStorage.getItem('isLoggedIn')) ?
+
+          <NavigationBar /> : ''}
+        {(localStorage.getItem('isLoggedIn')) ?
+
+          <Sidebar /> : ''}
         <div className="right-sidebar">
-        <FlashMessagesList />
+          <FlashMessagesList />
           {this.props.children}
           <div>
-            <Footer />
+            {(localStorage.getItem('isLoggedIn')) ?
+
+              <Footer /> : ''}
           </div>
         </div>
       </div>

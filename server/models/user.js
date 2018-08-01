@@ -17,7 +17,6 @@ let hashPassword =(password) => {
 const questionSchema = new Schema({
     question:{
       type:String,
-      unique:true
   },
   
   option1:String,
@@ -45,14 +44,13 @@ const userQuizzes = {
 const userSchema = new Schema({
     firstName: {
         type: String,
-        required: true,
         trim: true,
-        minlength: 4
+        minlength: 4,
+        default:'Anonymous'
     },
 
     lastName: {
         type: String,
-        required: true,
         trim: true,
         minlength: 4
     },
@@ -71,7 +69,6 @@ const userSchema = new Schema({
 
     password: {
         type: String,
-        required: true,
         set: hashPassword
     },
 

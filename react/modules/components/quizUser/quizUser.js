@@ -8,6 +8,9 @@ import { connect } from 'react-redux';
 import { completeQuiz } from '../../services/QuizService';
 import { addFlashMessage } from '../actions/addFlashMessage';
 import QuizResult from './quiz-result';
+import ReactDom from 'react-dom';
+
+import Popup from 'react-popup';
 
 class QuizUser extends React.Component {
 
@@ -46,6 +49,8 @@ class QuizUser extends React.Component {
   }
 
   componentWillMount() {
+    Popup.alert('Quiz Successfully submitted.');
+
     this.props.getSelectedQuiz(this.props.params.id)
       .then((success) => {
         this.setState({
@@ -69,13 +74,12 @@ class QuizUser extends React.Component {
                         
             this.state.storeInfo.push(id);
           })
-        }, () => {
         })
       })
       .catch((failed) => {
       })
     const isLoggedIn = localStorage.getItem('isLoggedIn');
-    console.log('isLoggedIn',(!isLoggedIn) && localStorage.getItem('guestUser') == null)
+    console.log(isLoggedIn,localStorage.getItem('guestUser'),'isLoggedIn',(!isLoggedIn) && localStorage.getItem('guestUser') == null)
     if ((!isLoggedIn) && localStorage.getItem('guestUser') == null)
       this.context.router.push('/login');
     else {
@@ -118,8 +122,9 @@ class QuizUser extends React.Component {
           marks: data.percentage,
           statusResult: data.statusResult,
           storeInfo: data.question,
-          takenQuizId: data._id
+          takenQuizId: data._id 
         })
+        console.log(Popup)
         this.context.router.push(`/get-taken-quiz/${data._id}`)
 
         if (response.status == 200 && data.percentage >= 60) {
@@ -183,12 +188,13 @@ class QuizUser extends React.Component {
         question: this.state.Questions[this.state.counter]._id,
         selectedAnswer: this.state.answer
       })
-    });
 
+    });
 
   }
 
   setNextQuestion() {
+
     // this.state.quizData.push({
     //   question:this.state.Questions[this.state.counter].question,
     //   selectedAnswer: this.state.answer
@@ -202,6 +208,7 @@ class QuizUser extends React.Component {
         questionId: questionId,
         questionUniqueId: this.state.Questions[counter]._id,
         question: this.state.Questions[counter].question,
+        answercheck:"",
         answerOptions: [this.state.Questions[counter].option1,
         this.state.Questions[counter].option1,
         this.state.Questions[counter].option2,
@@ -211,7 +218,10 @@ class QuizUser extends React.Component {
         this.state.storeInfo.forEach(item => {
           if (item.questionUniqueId === this.state.questionUniqueId) {
             this.setState({
-              answer: item.selectedAnswer
+              answer: item.selectedAnswer,
+
+            },() => {
+              console.log("quiz user==>",this.state)
             })
           }
         })
@@ -302,9 +312,13 @@ class QuizUser extends React.Component {
 
   renderQuiz() {
     return (
+      <div>
+      <Popup />
+
       <div className="preventcopy">
       <Quiz
         answer={this.state.answer}
+        storeInfo={this.state.storeInfo}
         answerOptions={this.state.answerOptions}
         questionId={this.state.questionId}
         question={this.state.question}
@@ -314,6 +328,7 @@ class QuizUser extends React.Component {
         onAnswerSelected={this.handleAnswerSelected}
         questionUniqueId={this.state.questionUniqueId}
       />
+      </div>
       </div>
     );
   }

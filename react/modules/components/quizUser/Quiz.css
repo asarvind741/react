@@ -50,6 +50,16 @@ button {
     height: 49px;
     border: none;
 }
+
+.question-button-given {
+  border-radius: 100%;
+  background-color: green;
+  color: white;
+  margin: 5px;
+  width: 50px;
+  height: 49px;
+  border: none;
+}
 .question-button:focus {outline: none;}
 
 .preventcopy {
@@ -100,6 +110,10 @@ button {
 .lable-class-name {
   width: 150px;
   font-size: 22px;
+}
+
+.test-given {
+  background-color: green;
 }
 
 .form-class-name {
