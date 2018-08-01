@@ -1,0 +1,16 @@
+
+.rbc-month-view {
+    position: relative;
+    display: table-row;
+    height: 50px;
+    min-height: 112px;
+}
+
+.popup_inner {
+    width: 210px;
+    height: 170px;
+    border: 1px solid aliceblue;
+    position: relative;
+    background-color: lightsteelblue;
+    border-radius: 30px;
+}

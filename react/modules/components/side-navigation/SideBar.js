@@ -2,6 +2,7 @@ import React from 'react';
 import './SideBar.css';
 import SideNaviationItem from './side-navigation-item';
 import axios from 'axios';
+import { Link } from 'react-router';
 
 class Sidebar extends React.Component {
 
@@ -74,6 +75,7 @@ class Sidebar extends React.Component {
 
          </a>
          <a href="/users">Manage User</a>
+         <Link to = "/calendar"> calendar</Link>
 
          </div>
          :null
