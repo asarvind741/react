@@ -11,7 +11,7 @@ class Popup extends React.Component {
       return (
         <div className='rbc-overlay' style = {styles}>
           <div className=' popup_inner'>
-            <h1>{this.props.text}</h1>
+           
           <button className = "btn btn-primary" onClick={this.props.closePopup}>Create New Brief</button>
           <button className = "btn btn-primary" onClick={this.props.closePopup}>View Briefs</button>
           </div>
