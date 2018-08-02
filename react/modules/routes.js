@@ -23,7 +23,7 @@ import MyQuiz from './components/my-quizes/my-quiz';
 import ManageQuiz from './components/manage-quiz/manage-quiz';
 import QuizResult from './components/quiz-result/quiz-result';
 import GuestUserQuiz from './components/guestUserQuiz/guestUserQuiz';
-import MainCalendar from './components/calender/calendar';
+import Calendar from './components/another-calendar/another-calendar';
 
 export default (
   <Route path= "/" component = { App }>
@@ -47,7 +47,7 @@ export default (
     <Route path = "manage-quiz" component = { ManageQuiz } />
     <Route path = "get-taken-quiz/:id" component = {QuizResult} />
     <Route path = "quiz-now/:id" component = { GuestUserQuiz} />
-    <Route path = "calendar" component = { MainCalendar } />
+    <Route path = "calendar" component = { Calendar } />
     {/* <Route path = "test" component = { withStyles} /> */}
   </Route>
 )
