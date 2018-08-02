@@ -24,7 +24,8 @@ import MyQuiz from './components/my-quizes/my-quiz';
 import ManageQuiz from './components/manage-quiz/manage-quiz';
 import QuizResult from './components/quiz-result/quiz-result';
 import GuestUserQuiz from './components/guestUserQuiz/guestUserQuiz';
-import EditQuiz from './components/editQuiz/editQuiz'
+
+import MainCalendar from './components/calender/calendar';
 
 export default (
   <Route path= "/" component = { App }>
@@ -43,13 +44,12 @@ export default (
     <Route path ='/listQuiz' component = {ListQuiz} />
     <Route path ='/take-quiz' component = {TakeQuiz} />
     {/* <Route path ='main-quiz' component = {MainQuiz} /> */}
-    <Route path = '/get-quiz/:id' component = {QuizUser} />
-    <Route path = "/my-quiz" component = { MyQuiz } />
-    <Route path = "/manage-quiz" component = { ManageQuiz } />
-    <Route path = "/get-taken-quiz/:id" component = {QuizResult} />
-    <Route path = "/quiz-now/:id" component = { GuestUserQuiz} />
-    <Route path = "/edit-quiz/:id" component = { EditQuiz } />
-    <Route path = "/calendar" component = { MainCalender } />
+    <Route path = 'get-quiz/:id' component = {QuizUser} />
+    <Route path = "my-quiz" component = { MyQuiz } />
+    <Route path = "manage-quiz" component = { ManageQuiz } />
+    <Route path = "get-taken-quiz/:id" component = {QuizResult} />
+    <Route path = "quiz-now/:id" component = { GuestUserQuiz} />
+    <Route path = "calendar" component = { MainCalendar } />
     {/* <Route path = "test" component = { withStyles} /> */}
   </Route>
 )
