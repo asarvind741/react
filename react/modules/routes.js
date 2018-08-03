@@ -24,6 +24,7 @@ import ManageQuiz from './components/manage-quiz/manage-quiz';
 import QuizResult from './components/quiz-result/quiz-result';
 import GuestUserQuiz from './components/guestUserQuiz/guestUserQuiz';
 import Calendar from './components/another-calendar/another-calendar';
+import CalendarContainer from './components/another-calendar/index'
 
 export default (
   <Route path= "/" component = { App }>
@@ -47,7 +48,7 @@ export default (
     <Route path = "manage-quiz" component = { ManageQuiz } />
     <Route path = "get-taken-quiz/:id" component = {QuizResult} />
     <Route path = "quiz-now/:id" component = { GuestUserQuiz} />
-    <Route path = "calendar" component = { Calendar } />
+    <Route path = "calendar" component = { CalendarContainer } />
     {/* <Route path = "test" component = { withStyles} /> */}
   </Route>
 )
