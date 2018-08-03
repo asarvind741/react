@@ -23,7 +23,7 @@ span.brief-action {
     top: auto;
     left: -90px;
     right: 0;
-    width: 228px;
+    width: 200px;
     background: #000;
     display: block;
     color: #fff;
@@ -31,7 +31,7 @@ span.brief-action {
     border-radius: 3px;
     padding: 7px 0;
     z-index: 9;
-    bottom: -161px;
+    bottom: -51px;
 }
 span.brief-action::after{
   content: '';
@@ -200,26 +200,7 @@ main {
   background: var(--neutral-color);
   transition: 0.25s ease-out;
 }
-.btn {
-    font-size: 10px;
-}
-.card {
-    position: relative;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-    width: 352px;
-    display: inline-block;
-    margin: 6px;
-}
 
-.briefs-total-popup {
-    font-weight: 200;
-    font-size: 20px;
-    text-align: center;
-    padding-left: 5px;
-}
 .calendar .body .cell:hover {
   background: var(--bg-color);
   transition: 0.5s ease-out;

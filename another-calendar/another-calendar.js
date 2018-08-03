@@ -33,18 +33,7 @@ class Calendar extends React.Component {
 
   renderHeader() {
     const dateFormat = "MMMM YYYY";
-    const dateFormat2 = "MMMM";
 
-    if(this.props.year){
-        return (
-            <div className="row">
-              <div className="col-xs-4">
-                <span>{dateFns.format(this.state.currentMonth, dateFormat2)}</span>
-              </div>
-            </div>
-          );
-    }
-    else{
     return (
       <div className="header row flex-middle">
         <div className="col col-start">
@@ -60,51 +49,24 @@ class Calendar extends React.Component {
         </div>
       </div>
     );
-}
   }
 
   renderDays() {
     const dateFormat = "dddd";
-    const dateFormat2 = "ddd";
     const days = [];
 
     let startDate = dateFns.startOfWeek(this.state.currentMonth);
-    if(!this.props.year){
-        for (let i = 0; i < 7; i++) {
-            days.push(
-              <div className="col" key={i} >
-                {dateFns.format(dateFns.addDays(startDate, i), dateFormat)}
-              </div>
-            );
-          }
-    }
-    else{
+
     for (let i = 0; i < 7; i++) {
       days.push(
         <div className="col" key={i} >
-          {dateFns.format(dateFns.addDays(startDate, i), dateFormat2)}
+          {dateFns.format(dateFns.addDays(startDate, i), dateFormat)}
         </div>
       );
     }
-}
 
     return <div className="days row">{days}</div>;
   }
-
-  getSelectedDate(date){
-      console.log(date);
-    for(let i=0;i<this.state.briefList.length;i++) {
-      if(this.state.briefList[i].date==date) {
-        return(
-          <div>Total briefs: {this.state.briefList[i].total}</div>
-      )
-      }
-    }
-    return(
-      <div>No briefs</div>
-    )
-  }
-
 
   getSelectedDate(date){
     for(let i=0;i<this.state.briefList.length;i++) {
@@ -120,6 +82,7 @@ class Calendar extends React.Component {
   }
 
   renderPopup(date){
+    console.log
     let briefs;
     for(let i=0;i<this.state.briefList.length;i++) {
       if(this.state.briefList[i].date==date) {
@@ -128,16 +91,12 @@ class Calendar extends React.Component {
     }
     return(
       <div className = "row">
-      {briefs ? (
-      <div>
-          <h4 className = "briefs-total-popup">Total Briefs: {briefs}</h4></div>): <h4 className = "briefs-total-popup">No Briefs for this month</h4>}
+      {briefs ? (<h4>Total Briefs: {briefs}</h4>): <h4>No Briefs for this month</h4>}
       <button className = "btn btn-primary">Create New Brief</button>
       <button className = "btn btn-primary">View Briefs</button>
       </div>
     )
   }
-
- 
  
 
   renderCells() {
@@ -164,6 +123,7 @@ class Calendar extends React.Component {
         const cloneDay = day;
         const checkDate = moment(cloneDay).format('DD/MM/YYYY')
         days.push(
+          <div className="col-center">
             <MappleToolTip>
             <div
             className={`col cell ${
@@ -172,14 +132,15 @@ class Calendar extends React.Component {
                 : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
             }`}
             key={day}
-            onClick={() => this.onDateClick(dateFns.parse(cloneDay))}>
+            onClick={(event) => this.onDateClick(event,dateFns.parse(cloneDay))}>
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
             {dateFns.isSameDay(day, selectedDate) ? (<span className="brief-action">{this.renderPopup(checkDate)}</span>): ''}
-            </div>          
-            <div>{this.getSelectedDate(checkDate)}</div>}
+            </div>
+            <div>{this.getSelectedDate(checkDate)}</div>
           
             </MappleToolTip>
+            </div>
          
         );
         day = dateFns.addDays(day, 1);
@@ -194,9 +155,29 @@ class Calendar extends React.Component {
     return <div className="body">{rows}</div>;
   }
 
-  onDateClick(day){
+  onDateClick(event,day){
+      event.preventDefault()
+      this.getSelectedDate('bg');
     this.setState({
-      selectedDate: day
+      selectedDate: day,
+      clicked: true
+    }, () => {
+        const dateSelected = moment(this.state.selectedDate).format('DD/MM/YYYY');
+        const selectedDateBriefs = []
+        let counter = 0;
+        this.state.briefList.forEach(item => {
+            const startDate = moment(item.start).format('DD/MM/YYYY');
+            const endDate = moment(item.end).format('DD/MM/YYYY');
+           
+            if(dateSelected>= startDate || dateSelected<=endDate){
+                this.state.selectedDateBriefs.push(item);
+                counter++;
+            }
+        })
+        this.setState({
+            counter: counter
+        })
+        
     });
   };
 
@@ -212,23 +193,14 @@ class Calendar extends React.Component {
     });
   };
 
-  componentWillReceiveProps(){
-    if(this.props.year){
-        this.setState({ currentMonth: this.props.year})
-    }
-        return true;
-  }
-
   render() {
-     
-        return (
-            <div   className={` ${ this.props.year ? "card" :  "calendar"}`}>
-              {this.renderHeader()}
-              {this.renderDays()}
-              {this.renderCells()}
-            </div>
-          );
-    
+    return (
+      <div className="calendar">
+        {this.renderHeader()}
+        {this.renderDays()}
+        {this.renderCells()}
+      </div>
+    );
   }
 }
 
