@@ -69,17 +69,9 @@ class Calendar extends React.Component {
   }
 
   getSelectedDate(date){
-      console.log(date);
-      if(date == 'bg'){
-          return(
-              <div>Test</div>
-          )
-      }
-      else{
       return(
           <div>{date}</div>
       )
-    }
   }
 
   renderCells() {
@@ -118,11 +110,13 @@ class Calendar extends React.Component {
                 : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
             }`}
             key={day}
-            onClick={(event) => this.onDateClick(event,dateFns.parse(cloneDay))}>
+            onClick={() => this.onDateClick(dateFns.parse(cloneDay))}>
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
             </div>
-            <div>{this.getSelectedDate(checkDate)}</div>
+            {this.state.clicked ?
+            <div>Test</div>:            
+            <div>{this.getSelectedDate(checkDate)}</div>}
           
             </MappleToolTip>
          
@@ -139,13 +133,10 @@ class Calendar extends React.Component {
     return <div className="body">{rows}</div>;
   }
 
-  onDateClick(event,day){
-      event.preventDefault()
-      console.log("event", event.target.className)
-      this.getSelectedDate('bg');
+  onDateClick(day){
     this.setState({
       selectedDate: day,
-      clicked: true
+      clicked: !clicked
     }, () => {
         const dateSelected = moment(this.state.selectedDate).format('DD/MM/YYYY');
         const selectedDateBriefs = []
