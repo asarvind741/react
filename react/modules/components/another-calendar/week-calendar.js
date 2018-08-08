@@ -2,37 +2,31 @@ import React from "react";
 import dateFns, { addWeeks } from "date-fns";
 import './another-calendar.css';
 import briefList from './brief-list';
-import {findDOMNode} from 'react-dom'
+import { findDOMNode } from 'react-dom'
 import ReactTooltip from 'react-tooltip'
 import MappleToolTip from 'reactjs-mappletooltip'
 import moment from 'moment';
 import briefListDate from './brief-list-day-wise';
 
 class WeekCalendar extends React.Component {
-    constructor(props){
-        super(props);
-       this.state = {
-            currentWeek: new Date(),
-            selectedDate: new Date(),
-            briefList: [],
-            selectedDateBriefs: [],
-            clicked: false
-          };
-          this.nextWeek = this.nextWeek.bind(this);
-          this.prevWeek = this.prevWeek.bind(this)
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentWeek: new Date(),
+      selectedDate: new Date(),
+      briefList: briefListDate,
+      selectedDateBriefs: [],
+      selectedBrief: null
+    };
+    this.nextWeek = this.nextWeek.bind(this);
+    this.prevWeek = this.prevWeek.bind(this)
+  }
 
-    componentDidMount(){
-        this.setState({
-            briefList:briefListDate
-        }, () => {
-          
-        })
-    }
-  
+
+
 
   renderHeader() {
-    
+
     const startDate = dateFns.startOfWeek(this.state.currentWeek);
     const endDate = dateFns.endOfWeek(this.state.currentWeek);
     const tes1 = moment(startDate).format('DD-MMM-YY');
@@ -54,6 +48,17 @@ class WeekCalendar extends React.Component {
         </div>
       </div>
     );
+  }
+
+  componentWillReceiveProps(){
+    console.log("test12")
+    this.setState({
+      currentWeek: this.props.currentWeek,
+      selectedDate: this.props.selectedDate,
+      selectedBrief: this.props.selectedBrief
+    })
+
+    this.forceUpdate()
   }
 
   renderDays() {
@@ -78,23 +83,29 @@ class WeekCalendar extends React.Component {
 
 
 
-  getSelectedDate(date){
-     
-      if(date == 'bg'){
-          return(
-              <div>Test</div>
-          )
-      }
-      else{
-      return(
-          <div>{date}</div>
-      )
-    }
+
+
+  clickedEvent(item) {
+    this.setState({
+      selectedBrief: item
+    })
   }
 
- 
+  renderPopup(item) {
 
- 
+    return (
+      <div className="row">
+        <div>
+          <h4 className="briefs-total-popup-week">Brief Time Duration: {item.timeStart} To {item.timeEnd}</h4></div>
+        <button className="btn btn-primary">Create New Brief</button>
+        <button className="btn btn-primary">View Briefs</button>
+      </div>
+    )
+  }
+
+
+
+
 
   renderCells() {
     const { currentWeek, selectedDate } = this.state;
@@ -106,11 +117,9 @@ class WeekCalendar extends React.Component {
     let days = [];
     let day = weekStart;
 
-    
-    
     let date = '';
 
-    
+
 
     while (day <= weekEnd) {
       for (let i = 0; i < 7; i++) {
@@ -119,27 +128,29 @@ class WeekCalendar extends React.Component {
         const dateFormat3 = moment(day).format('DD/MM/YYYY');
 
         this.state.briefList.forEach(item => {
-            if(item.date == dateFormat3){
-                test = item.briefs;
-                date = item.date;
-            }
+          if (item.date == dateFormat3) {
+            test = item.briefs;
+            date = item.date;
+          }
         })
         test.forEach(item => {
-            test4.push(
-                <div className = "row">{item.title}</div>
-            )
+          const itemselected = this.state.selectedBrief;
+          test4.push(
+            <div className = "set-popup-position">
+              <div className="week-brief-item" onClick={() => this.clickedEvent(item)}>{item.title}</div>
+              {itemselected == item ? (<span className="brief-action-week">{this.renderPopup(itemselected)}</span>) : ''}
+            </div>
+          )
         })
 
 
         days.push(
-            <div>
-           <div className = "col col-center">
-            {date == dateFormat3 ?(<ul>{test4}</ul>): ''}
-           </div>
-           <div className = "col col-center">
-           <button className = "btn btn-light">New</button>
-           </div>
-           </div>
+          <div className="col col-center week-btn">
+            <div className="week-briefs">
+              {date == dateFormat3 ? (<div>{test4}</div>) : ''}
+            </div>
+            <button className="btn btn-light">New</button>
+          </div>
         );
         day = dateFns.addDays(day, 1);
       }
@@ -153,27 +164,15 @@ class WeekCalendar extends React.Component {
     return <div className="body">{rows}</div>;
   }
 
-  onDateClick(event,day){
-      event.preventDefault()
-      console.log("event", event.target.className)
-      this.getSelectedDate('bg');
-    this.setState({
-      selectedDate: day,
-      clicked: true
-    }, () => {
-        const dateSelected = moment(this.state.selectedDate).format('DD/MM/YYYY');
-        const selectedDateBriefs = []
-        
-    });
-  };
 
-  nextWeek(){
+
+  nextWeek() {
     this.setState({
       currentWeek: dateFns.addWeeks(this.state.currentWeek, 1)
     });
   };
 
-  prevWeek () {
+  prevWeek() {
     this.setState({
       currentWeek: dateFns.subWeeks(this.state.currentWeek, 1)
     });

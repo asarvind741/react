@@ -23,7 +23,6 @@ import MyQuiz from './components/my-quizes/my-quiz';
 import ManageQuiz from './components/manage-quiz/manage-quiz';
 import QuizResult from './components/quiz-result/quiz-result';
 import GuestUserQuiz from './components/guestUserQuiz/guestUserQuiz';
-import Calendar from './components/another-calendar/another-calendar';
 import CalendarContainer from './components/another-calendar/index'
 
 export default (

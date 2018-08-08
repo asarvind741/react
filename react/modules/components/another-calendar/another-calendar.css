@@ -21,7 +21,7 @@
 span.brief-action {
     position: absolute;
     top: auto;
-    left: -90px;
+    left: -100px;
     right: 0;
     width: 228px;
     background: #000;
@@ -31,7 +31,22 @@ span.brief-action {
     border-radius: 3px;
     padding: 7px 0;
     z-index: 9;
-    bottom: -161px;
+    bottom: -107px;
+}
+
+span.brief-action-week {
+  position: absolute;
+  top: -42px;
+  left: 112px;
+  right: 0;
+  width: 228px;
+  background: #000;
+  display: block;
+  color: #fff;
+  text-align: center;
+  border-radius: 3px;
+  padding: 7px 0;
+  z-index: 9;
 }
 span.brief-action::after{
   content: '';
@@ -46,6 +61,23 @@ span.brief-action::after{
     border-bottom: 10px solid #000;
     top: -10px;
     margin: 0 auto;
+}
+.set-popup-position{
+  position: relative;
+}
+
+span.brief-action-week::after{
+  content: '';
+    display: block;
+    position: absolute;
+    left: -14px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #000;
+    top: 46%;
+    transform: rotate(-90deg);
 }
 .calendar .body .col.cell.selected {
   position: relative;
@@ -212,6 +244,7 @@ main {
     width: 352px;
     display: inline-block;
     margin: 6px;
+    vertical-align: top
 }
 
 .briefs-total-popup {
@@ -284,4 +317,82 @@ main {
 .lace-top {
     margin-top: -80px;
     margin-left: -127px;
+}
+
+.table-cell-wrapper > span {
+  display: inline-block !important;
+  flex-grow: 1;
+  text-align: center;
+  flex-basis: 0;
+  max-width: 100%;
+}
+.table-cell-wrapper > span .col.cell span.number {
+  display: block;
+  width: 100%;
+}
+.calendar .days .col {
+  text-align: center;
+}
+
+.table-cell-wrapper > span .col.cell {
+  width: 100%;
+  text-align: center;
+}
+
+.week-briefs {
+  color: #1a8fff;
+}
+.week-brief-item {
+  height: 40px;
+}
+.row.table-cell-wrapper.last-row .col.cell {
+  padding: 0;
+  border: 0;
+}
+#contact .calendar .body .cell {
+  height: 46px;
+}
+#contact .calendar .days .col {
+  display: inline-block;
+  flex-grow: unset;
+  padding: 0 13px;
+}
+span.month-name {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  padding: 10px 0;
+  color: #000;
+}
+.week-btn button.btn.btn-light {
+  width: 100%;
+  margin: 10px 0;
+  font-size: 13px;
+  background: #000;
+  color: #fff;
+  max-width: 76px;
+}
+.col.col-center {
+  color: #000;
+}
+.calendar .days .col {
+  color: #000;
+}
+.week-brief-item {
+  height: 35px;
+  line-height: 35px;
+  font-size: 12px;
+  background: green;
+  margin: 8px auto;
+  color: #fff;
+  max-width: 77px;
+  border-radius: 3px;
+}
+
+.briefs-total-popup-week {
+  font-weight: 200;
+  font-size: 11px;
+  text-align: center;
+  padding-left: 5px;
 }

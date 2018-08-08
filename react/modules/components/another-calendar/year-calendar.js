@@ -6,7 +6,7 @@ import { findDOMNode } from 'react-dom'
 import ReactTooltip from 'react-tooltip'
 import MappleToolTip from 'reactjs-mappletooltip'
 import moment from 'moment';
-import Calender from './another-calendar';
+import DayCalendar from './month-calendar';
 
 class YearCalendar extends React.Component {
   constructor(props) {
@@ -16,7 +16,6 @@ class YearCalendar extends React.Component {
       selectedMonth: null,
       briefList: [],
       selectedDateBriefs: [],
-      clicked: false
     };
     this.nextYear = this.nextYear.bind(this);
     this.prevYear = this.prevYear.bind(this)
@@ -62,9 +61,12 @@ class YearCalendar extends React.Component {
     const{currentYear} = this.state;
     let year = dateFns.startOfYear(currentYear);
     let months = [];
+    let selectedDate = null
     for (let i = 0; i<12; i++){
       months.push(
-        <Calender year = {year}/>
+        <DayCalendar 
+        year = {year}
+        selectedDate = {selectedDate }/>
       )
       
       year = dateFns.addMonths(year, 1);
@@ -84,12 +86,16 @@ class YearCalendar extends React.Component {
   nextYear() {
     this.setState({
       currentYear: dateFns.addYears(this.state.currentYear, 1)
+    }, () => {
+      this.forceUpdate();
     });
   };
 
   prevYear() {
     this.setState({
       currentYear: dateFns.subYears(this.state.currentYear, 1)
+    }, () => {
+      this.forceUpdate();
     });
   };
 
